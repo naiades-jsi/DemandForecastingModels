@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd 
 import numpy.ma as ma
 import sys
-sys.path.append('/home/costa/predictive_ensemble_dynamics/utils')
+sys.path.append('/home/costa/JoaoModelsForAlicante/utils')
 import operator_calculations as op_calc
 import stats
 import delay_embedding as embed
