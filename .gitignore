@@ -1,2 +1,14 @@
 *__pycache__/
 *.npy
+*.jpg
+*-checkpoint.ipynb
+*.h5
+*.py
+*.csv
+AliPark
+AutoBus
+Benalua
+Diputacion
+MercAlic
+PzaMont
+Rambla
