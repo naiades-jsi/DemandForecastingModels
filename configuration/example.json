@@ -1,0 +1,21 @@
+{
+    "topics":[
+        "topic1",
+        "topic2"
+    ],
+    "bootstrap_server": "192.168.82.187:9092",
+    "models":[
+        {
+            "training_data": "some/path/to/data",
+            "model_structure": {
+                "N_of_nurons": 10
+            }
+        },
+        {
+            "training_data": "some/path/to/data2",
+            "model_structure": {
+                "N_of_nurons": 10
+            }
+        }
+    ]
+}
