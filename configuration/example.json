@@ -1,0 +1,95 @@
+{
+    "topics":[
+        "topic1",
+        "topic2"
+    ],
+    "bootstrap_server": "192.168.82.187:9092",
+    "models":[
+        {
+            "training_data": "~/AliPark",
+            "model_structure": {
+                "n_of_neurons": 64,
+                "n_of_timesteps": 24,
+                "learning_rate": 0.01,
+                "dropout": 0.1,
+                "test_size": 0.25,
+                "validation_split": 0.2,
+                "epochs": 200,
+                "batch_size": 128                
+            }
+        },
+        {
+            "training_data": "~/AutoBus",
+            "model_structure": {
+                "n_of_neurons": 64,
+                "n_of_timesteps": 24,
+                "learning_rate": 0.01,
+                "dropout": 0.1,
+                "test_size": 0.25,
+                "validation_split": 0.2,
+                "epochs": 200,
+                "batch_size": 128  
+            }
+            {
+            "training_data": "~/Benalua",
+            "model_structure": {
+                "n_of_neurons": 64,
+                "n_of_timesteps": 24,
+                "learning_rate": 0.01,
+                "dropout": 0.05,
+                "test_size": 0.3,
+                "validation_split": 0.2,
+                "epochs": 200,
+                "batch_size": 128  
+            }
+            {
+            "training_data": "~/Diputacion",
+            "model_structure": {
+                "n_of_neurons": 50,
+                "n_of_timesteps": 24,
+                "learning_rate": 0.01,
+                "dropout": 0.1,
+                "test_size": 0.3,
+                "validation_split": 0.2,
+                "epochs": 200,
+                "batch_size": 100  
+            }
+            {
+            "training_data": "~/MercAlic",
+            "model_structure": {
+                "n_of_neurons": 64,
+                "n_of_timesteps": 24,
+                "learning_rate": 0.00004,
+                "dropout": 0.2,
+                "test_size": 0.25,
+                "validation_split": 0.2,
+                "epochs": 200,
+                "batch_size": 256  
+            }
+            {
+            "training_data": "~/PzaMont",
+            "model_structure": {
+                "n_of_neurons": 32,
+                "n_of_timesteps": 24,
+                "learning_rate": 0.01,
+                "dropout": 0.15,
+                "test_size": 0.25,
+                "validation_split": 0.2,
+                "epochs": 60,
+                "batch_size": 256  
+            }
+            {
+            "training_data": "~/Rambla",
+            "model_structure": {
+                "n_of_neurons": 64,
+                "n_of_timesteps": 24,
+                "learning_rate": 0.01,
+                "dropout": 0.2,
+                "test_size": 0.25,
+                "validation_split": 0.2,
+                "epochs": 200,
+                "batch_size": 128  
+            }
+        }
+    ]
+}
