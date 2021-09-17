@@ -40,7 +40,7 @@ def main():
         "-c",
         "--config",
         dest="config",
-        default="config1.json",
+        default="config.json",
         help=u"Config file located in ./config/ directory."
     )
 
