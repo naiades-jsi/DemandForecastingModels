@@ -107,7 +107,7 @@ for j in datasets:
 plt.plot(inverse_scaler(scaled_X,minX,maxX))
 plt.show()
 
-[train_df,test_df] = partitionSet(0.25,scaled_X, 54)
+[train_df,test_df] = partitionSet(0.25,scaled_X, 61)
 
 plt.plot(test_df)
 
