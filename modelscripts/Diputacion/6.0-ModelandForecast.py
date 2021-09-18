@@ -109,17 +109,6 @@ plt.show()
 
 int(0.25*len(scaled_X))
 
-def partitionSet(test_fraction, data, partition):
-    lenX = len(data)
-    test_size = int(len(data) * test_fraction)
-    test_df = data[int((partition/100)*lenX):int((partition/100)*lenX)+test_size]
-    train_df = ma.vstack((data[:int((partition/100)*lenX)-1],data[int((partition/100)*lenX)+test_size:]))
-    train_df[int((partition/100)*lenX)] = ma.masked
-    return train_df, test_df
-
-train_dataf = []
-test_dataf = []
-
 [train_df,test_df] = partitionSet(0.25,scaled_X, 54)
 
 plt.plot(test_df)
