@@ -109,7 +109,7 @@ plt.show()
 
 int(0.25*len(scaled_X))
 
-[train_df,test_df] = partitionSet(0.25,scaled_X, 54)
+[train_df,test_df] = partitionSet(0.25,scaled_X, 16)
 
 plt.plot(test_df)
 
