@@ -27,9 +27,6 @@ f.close()
 def inverse_scaler(scaled_x,minX,maxX):
     return scaled_x*maxX-minX
 
-plt.plot(inverse_scaler(scaled_X,minX,maxX))
-plt.show()
-
 def partitionSet(test_fraction, data, partitions):
     lenX = len(data)
     test_size = int(len(data) * test_fraction)
@@ -47,9 +44,6 @@ for i in range(1, partitions):
     [train_df,test_df] = partitionSet(0.25,scaled_X,i)
     train_dataf.append(train_df)
     test_dataf.append(test_df)
-
-plt.plot(train_dataf[73])
-plt.show()
 
 def Dataset(train, test, timesteps):
     X_train = ma.array([train[t:t+timesteps] for t in range(0,len(train)-timesteps)])
@@ -104,14 +98,7 @@ for j in datasets:
     models.append(model)
     MODELS.append(MODEL)
 
-plt.plot(inverse_scaler(scaled_X,minX,maxX))
-plt.show()
-
-int(0.25*len(scaled_X))
-
 [train_df,test_df] = partitionSet(0.25,scaled_X, 8)
-
-plt.plot(test_df)
 
 timesteps = 24
 X_train = ma.array([train_df[t:t+timesteps] for t in range(0, len(train_df)-timesteps)])
@@ -137,20 +124,8 @@ def LSTM_forecast(NCells, timesteps, num_features, dropout, NBEpochs, Batchsize,
 
 model, MODEL = LSTM_forecast(64, X_train.shape[1], 1, 0.2, 200, 256, 0.2)
 
-plt.plot(MODEL.history['loss'])
-plt.plot(MODEL.history['val_loss'])
-plt.show()
-
 prediction_test = model.predict(X_test)
 prediction_train = model.predict(X_train)
-
-plt.plot(inverse_scaler(y_train[:,0], minX, maxX))
-plt.plot(inverse_scaler(prediction_train[:,0], minX, maxX))
-plt.show()
-
-plt.plot(inverse_scaler(y_test[:,0], minX, maxX))
-plt.plot(inverse_scaler(prediction_test[:,0], minX, maxX))
-plt.show()
 
 inputs = scaled_X[len(scaled_X) - len(test_df) - timesteps:]
 inputs = inputs.reshape(-1,1)
