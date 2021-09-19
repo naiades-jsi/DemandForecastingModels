@@ -48,9 +48,6 @@ for i in range(1, partitions):
     train_dataf.append(train_df)
     test_dataf.append(test_df)
 
-plt.plot(train_dataf[73])
-plt.show()
-
 def Dataset(train, test, timesteps):
     X_train = ma.array([train[t:t+timesteps] for t in range(0,len(train)-timesteps)])
     y_train = train[timesteps:, :]
