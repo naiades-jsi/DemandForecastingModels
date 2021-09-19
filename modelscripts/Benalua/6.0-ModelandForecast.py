@@ -27,9 +27,6 @@ f.close()
 def inverse_scaler(scaled_x,minX,maxX):
     return scaled_x*maxX-minX
 
-plt.plot(inverse_scaler(scaled_X,minX,maxX))
-plt.show()
-
 def partitionSet(test_fraction, data, partitions):
     lenX = len(data)
     test_size = int(len(data) * test_fraction)
