@@ -10,6 +10,7 @@
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
+                "num_features": 1,
                 "learning_rate": 0.01,
                 "dropout": 0.1,
                 "test_size": 0.25,
@@ -23,6 +24,7 @@
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
+                "num_features": 1,
                 "learning_rate": 0.01,
                 "dropout": 0.1,
                 "test_size": 0.25,
@@ -35,6 +37,7 @@
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
+                "num_features": 1,
                 "learning_rate": 0.01,
                 "dropout": 0.05,
                 "test_size": 0.3,
@@ -47,6 +50,7 @@
             "model_structure": {
                 "n_of_neurons": 50,
                 "n_of_timesteps": 24,
+                "num_features": 1,
                 "learning_rate": 0.01,
                 "dropout": 0.1,
                 "test_size": 0.3,
@@ -59,6 +63,7 @@
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
+                "num_features": 1,
                 "learning_rate": 0.00004,
                 "dropout": 0.2,
                 "test_size": 0.25,
@@ -71,6 +76,7 @@
             "model_structure": {
                 "n_of_neurons": 32,
                 "n_of_timesteps": 24,
+                "num_features": 1,
                 "learning_rate": 0.01,
                 "dropout": 0.15,
                 "test_size": 0.25,
@@ -83,6 +89,7 @@
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
+                "num_features": 1,
                 "learning_rate": 0.01,
                 "dropout": 0.2,
                 "test_size": 0.25,
