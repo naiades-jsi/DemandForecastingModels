@@ -3,7 +3,7 @@
 *.jpg
 *-checkpoint.ipynb
 *.h5
-*.py
+*.ipynb
 *.csv
 AliPark
 AutoBus
