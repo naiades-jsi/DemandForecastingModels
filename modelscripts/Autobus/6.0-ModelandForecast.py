@@ -6,18 +6,14 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM, Dropout, TimeDistributed, Masking
 from tensorflow.keras.optimizers import Adam
 import h5py
-import matplotlib.pyplot as plt
 import numpy.ma as ma
-from matplotlib.pyplot import figure
-plt.rcParams["figure.figsize"] = (20,12)
-figure(figsize=(100, 80), dpi=80)
 
 tf.random.set_seed(12345)
 
 physical_devices = tf.config.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
 
-f = h5py.File("autobuses_processed_data.h5","r")
+f = h5py.File("C:/Users/Utilizador/Desktop/GitRepo/modelscripts/AutoBus/autobuses_processed_data.h5","r")
 scaled_X = ma.array(f["scaled_x"])
 scaled_X.mask = ma.array(f["x_mask"])
 minX = np.array(f["minX"])
@@ -122,7 +118,7 @@ def LSTM_forecast(NCells, timesteps, num_features, dropout, NBEpochs, Batchsize,
                       validation_split = validationSplit, shuffle = False)
     return model, MODEL
 
-model, MODEL = LSTM_forecast(64, X_train.shape[1], 1, 0.2, 200, 128, 0.2)
+model, MODEL = LSTM_forecast(64, X_train.shape[1], 1, 0.2, 80, 128, 0.2)
 
 prediction_test = model.predict(X_test)
 prediction_train = model.predict(X_train)
@@ -140,7 +136,4 @@ X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
 
 predicted_demand = model.predict(X_test)
 
-plt.plot(inverse_scaler(predicted_demand, minX, maxX))
-plt.xlabel('Timesteps')
-plt.ylabel('Flow')
-plt.savefig('prediction.jpg')
+print(np.shape(X_test))

@@ -1,7 +1,12 @@
 {
     "topics":[
-        "topic1",
-        "topic2"
+        "measurement_node_alicante_alipark_flow",
+        "measurements_node_alicante_autobuses_flow",
+        "measurements_node_alicante_benalua_flow",
+        "measurements_node_alicante_diputacion_flow",
+        "measurements_node_alicante_mercado_flow",
+        "measurements_node_alicante_montaneta_flow",
+        "measurements_node_alicante_rambla_flow"
     ],
     "bootstrap_server": "192.168.82.187:9092",
     "models":[

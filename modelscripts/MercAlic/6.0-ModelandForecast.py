@@ -6,11 +6,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM, Dropout, TimeDistributed, Masking
 from tensorflow.keras.optimizers import Adam
 import h5py
-import matplotlib.pyplot as plt
 import numpy.ma as ma
-from matplotlib.pyplot import figure
-plt.rcParams["figure.figsize"] = (20,12)
-figure(figsize=(100, 80), dpi=80)
 
 tf.random.set_seed(12345)
 
@@ -139,8 +135,3 @@ X_test = np.array(X_test)
 X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
 
 predicted_demand = model.predict(X_test)
-
-plt.plot(inverse_scaler(predicted_demand, minX, maxX))
-plt.xlabel('Timesteps')
-plt.ylabel('Flow')
-plt.savefig('prediction.jpg')

@@ -6,11 +6,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM, Dropout, TimeDistributed, Masking
 from tensorflow.keras.optimizers import Adam
 import h5py
-import matplotlib.pyplot as plt
 import numpy.ma as ma
-from matplotlib.pyplot import figure
-plt.rcParams["figure.figsize"] = (20,12)
-figure(figsize=(100, 80), dpi=80)
 
 tf.random.set_seed(12345)
 
@@ -91,12 +87,12 @@ MODELS = []
 
 datasets = np.arange(0,partitions-1)
 
-# for j in datasets:
-#    [model, MODEL] = LSTM_function(64,np.shape(train_X_data[0])[1], 1, 0.1, 200, 128, 0.2, early_stopping, j)
-#    df_train.append(MODEL.history['loss'])
-#    df_validation.append(MODEL.history['val_loss'])
-#    models.append(model)
-#    MODELS.append(MODEL)
+for j in datasets:
+   [model, MODEL] = LSTM_function(64,np.shape(train_X_data[0])[1], 1, 0.1, 200, 128, 0.2, early_stopping, j)
+   df_train.append(MODEL.history['loss'])
+   df_validation.append(MODEL.history['val_loss'])
+   models.append(model)
+   MODELS.append(MODEL)
 
 [train_df,test_df] = partitionSet(0.25,scaled_X, 54)
 
@@ -139,9 +135,3 @@ X_test = np.array(X_test)
 X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
 
 predicted_demand = model.predict(X_test)
-
-plt.plot(inverse_scaler(predicted_demand, minX, maxX))
-plt.xlabel('Timesteps')
-plt.ylabel('Flow')
-plt.savefig('prediction.jpg')
-plt.show()
