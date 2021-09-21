@@ -17,7 +17,7 @@ tf.random.set_seed(12345)
 physical_devices = tf.config.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
 
-f = h5py.File("alipark_processed_data.h5","r")
+f = h5py.File("C:/Users/Utilizador/Desktop/GitRepo/modelscripts/AliPark/alipark_processed_data.h5","r")
 scaled_X = ma.array(f["scaled_x"])
 scaled_X.mask = ma.array(f["x_mask"])
 minX = np.array(f["minX"])
@@ -91,12 +91,12 @@ MODELS = []
 
 datasets = np.arange(0,partitions-1)
 
-for j in datasets:
-    [model, MODEL] = LSTM_function(64,np.shape(train_X_data[0])[1], 1, 0.1, 200, 128, 0.2, early_stopping, j)
-    df_train.append(MODEL.history['loss'])
-    df_validation.append(MODEL.history['val_loss'])
-    models.append(model)
-    MODELS.append(MODEL)
+# for j in datasets:
+#    [model, MODEL] = LSTM_function(64,np.shape(train_X_data[0])[1], 1, 0.1, 200, 128, 0.2, early_stopping, j)
+#    df_train.append(MODEL.history['loss'])
+#    df_validation.append(MODEL.history['val_loss'])
+#    models.append(model)
+#    MODELS.append(MODEL)
 
 [train_df,test_df] = partitionSet(0.25,scaled_X, 54)
 
@@ -122,7 +122,7 @@ def LSTM_forecast(NCells, timesteps, num_features, dropout, NBEpochs, Batchsize,
                       validation_split = validationSplit, shuffle = False)
     return model, MODEL
 
-model, MODEL = LSTM_forecast(64, X_train.shape[1], 1, 0.2, 200, 128, 0.2)
+model, MODEL = LSTM_forecast(64, X_train.shape[1], 1, 0.2, 80, 128, 0.2)
 
 prediction_test = model.predict(X_test)
 prediction_train = model.predict(X_train)
@@ -144,3 +144,4 @@ plt.plot(inverse_scaler(predicted_demand, minX, maxX))
 plt.xlabel('Timesteps')
 plt.ylabel('Flow')
 plt.savefig('prediction.jpg')
+plt.show()
