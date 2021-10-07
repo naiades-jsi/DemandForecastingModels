@@ -8,10 +8,11 @@
         "measurements_node_alicante_montaneta_flow",
         "measurements_node_alicante_rambla_flow"
     ],
-    "bootstrap_server": "192.168.82.187:9092",
+    "bootstrap_servers": "localhost:9092",
+    "model_alg": "LSTM()",
     "models":[
         {
-            "training_data": "~/AliPark",
+            "training_X_data": "~/AliPark/train_X_data.npy",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -21,11 +22,11 @@
                 "test_size": 0.25,
                 "validation_split": 0.2,
                 "epochs": 200,
-                "batch_size": 128                
+                "batch_size": 128          
             }
         },
         {
-            "training_data": "~/AutoBus",
+            "training_data": "~/AutoBus/train_X_data.npy",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -35,10 +36,11 @@
                 "test_size": 0.25,
                 "validation_split": 0.2,
                 "epochs": 200,
-                "batch_size": 128  
+                "batch_size": 128
             }
-            {
-            "training_data": "~/Benalua",
+        },
+        {
+            "training_data": "~/Benalua/train_X_data.npy",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -48,10 +50,11 @@
                 "test_size": 0.3,
                 "validation_split": 0.2,
                 "epochs": 200,
-                "batch_size": 128  
+                "batch_size": 128 
             }
-            {
-            "training_data": "~/Diputacion",
+        },
+        {
+            "training_data": "~/Diputacion/train_X_data.npy",
             "model_structure": {
                 "n_of_neurons": 50,
                 "n_of_timesteps": 24,
@@ -61,10 +64,11 @@
                 "test_size": 0.3,
                 "validation_split": 0.2,
                 "epochs": 200,
-                "batch_size": 100  
+                "batch_size": 100
             }
-            {
-            "training_data": "~/MercAlic",
+        },
+        {
+            "training_data": "~/MercAlic/train_X_data.npy",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -74,10 +78,11 @@
                 "test_size": 0.25,
                 "validation_split": 0.2,
                 "epochs": 200,
-                "batch_size": 256  
+                "batch_size": 256 
             }
-            {
-            "training_data": "~/PzaMont",
+        },
+        {
+            "training_data": "~/PzaMont/train_X_data.npy",
             "model_structure": {
                 "n_of_neurons": 32,
                 "n_of_timesteps": 24,
@@ -89,8 +94,9 @@
                 "epochs": 60,
                 "batch_size": 256  
             }
-            {
-            "training_data": "~/Rambla",
+        },
+        {
+            "training_data": "~/Rambla/train_X_data.npy",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,

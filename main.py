@@ -73,7 +73,7 @@ def main():
     print("Subscribed to topics: ", topics, flush=True)
 
     # Read model configurations
-    model_configurations = conf["bootstrap_server"]
+    model_configurations = conf["bootstrap_servers"]
 
     # Initialize models (build NN-s and train models)
     models = []
