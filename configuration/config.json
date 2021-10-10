@@ -12,7 +12,9 @@
     "model_alg": "LSTM()",
     "models":[
         {
+            "horizon" : 24,
             "training_X_data": "~/AliPark/train_X_data.npy",
+            "training_Y_data": "~/AliPark/train_Y_data.npy",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -26,7 +28,9 @@
             }
         },
         {
-            "training_data": "~/AutoBus/train_X_data.npy",
+            "horizon" : 24,
+            "training_X_data": "~/AutoBus/train_X_data.npy",
+            "training_Y_data": "~/AutoBus/train_Y_data.npy",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -40,7 +44,9 @@
             }
         },
         {
-            "training_data": "~/Benalua/train_X_data.npy",
+            "horizon" : 24,
+            "training_X_data": "~/Benalua/train_X_data.npy",
+            "training_Y_data": "~/Benalua/train_Y_data.npy",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -54,7 +60,9 @@
             }
         },
         {
-            "training_data": "~/Diputacion/train_X_data.npy",
+            "horizon" : 24,
+            "training_X_data": "~/Diputacion/train_X_data.npy",
+            "training_Y_data": "~/Diputacion/train_Y_data.npy",
             "model_structure": {
                 "n_of_neurons": 50,
                 "n_of_timesteps": 24,
@@ -68,7 +76,9 @@
             }
         },
         {
-            "training_data": "~/MercAlic/train_X_data.npy",
+            "horizon" : 24,
+            "training_X_data": "~/MercAlic/train_X_data.npy",
+            "training_Y_data": "~/MercAlic/train_Y_data.npy",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -82,7 +92,9 @@
             }
         },
         {
-            "training_data": "~/PzaMont/train_X_data.npy",
+            "horizon" : 24,
+            "training_X_data": "~/PzaMont/train_X_data.npy",
+            "training_Y_data": "~/PzaMont/train_Y_data.npy",
             "model_structure": {
                 "n_of_neurons": 32,
                 "n_of_timesteps": 24,
@@ -96,7 +108,9 @@
             }
         },
         {
-            "training_data": "~/Rambla/train_X_data.npy",
+            "horizon" : 24,
+            "training_X_data": "~/Rambla/train_X_data.npy",
+            "training_Y_data": "~/Rambla/train_Y_data.npy",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
