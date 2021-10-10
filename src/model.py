@@ -39,7 +39,7 @@ class Model():
         predicted_demand = self.model.predict(ftr_vector)
         output_dictionary = {"timestamp": message_value['timestamp'], 
         "timestamp_prediction": time.time(), 
-        "value": predicted_demand, 
+        "value": predicted_demand[0], 
         "horizon": self.horizon}
 
     def build_train_model(self, model_structure: Dict[str, Any]):
