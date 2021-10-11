@@ -5,15 +5,12 @@ import requests
 import threading
 import time
 import logging
+
+from src.consumer import ConsumerKafka, ConsumerFile, ConsumerFileKafka
+from src.model import LSTM_model
+
 from multiprocessing import Process
 from datetime import datetime
-from kafka import KafkaConsumer
-from kafka import KafkaProducer
-
-# adding src subdirectory
-sys.path.insert(0,'./src')
-
-import model as m
 
 
 def ping_watchdog(process):
@@ -32,6 +29,17 @@ def ping_watchdog(process):
             logging.info('Successful ping at ' + time.ctime())
         time.sleep(interval)
 
+def start_consumer(args):
+    if(args.data_file):   
+        consumer = ConsumerFile(configuration_location=args.config)
+    elif(args.data_both):
+        consumer = ConsumerFileKafka(configuration_location=args.config)
+    else:
+        consumer = ConsumerKafka(configuration_location=args.config)
+    
+    print("=== Service starting ===", flush=True)
+    consumer.read()
+
 def main():
     logging.basicConfig(filename="event_log.log", format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
     parser = argparse.ArgumentParser(description="consumer")
@@ -40,8 +48,24 @@ def main():
         "-c",
         "--config",
         dest="config",
-        default="config.json",
+        default="config1.json",
         help=u"Config file located in ./config/ directory."
+    )
+
+    parser.add_argument(
+        "-f",
+        "--file",
+        dest="data_file",
+        action="store_true",
+        help=u"Read data from a specified file on specified location."
+    )
+
+    parser.add_argument(
+        "-fk",
+        "--filekafka",
+        dest="data_both",
+        action="store_true",
+        help=u"Read data from a specified file on specified location and then from kafka stream."
     )
 
     parser.add_argument(
@@ -60,54 +84,20 @@ def main():
     # Parse input arguments
     args = parser.parse_args()
 
-    # Read the configuration file
-    with open("configuration/" + args.config) as configuration:
-        conf = json.load(configuration)
+    # Ping watchdog every 30 seconds if specfied
+    if (args.watchdog):
+        # Run and save a parelel process
+        # Start periodic download
+        process = Process(target=start_consumer, args=(args,))
+        process.start()
 
-    # Read the topics
-    topics = conf["topics"]
+        # On the main thread ping watchdog if child process is alive
+        print("=== Watchdog started ==", flush=True) 
+        ping_watchdog(process)
+    else:
+        start_consumer(args)
 
-    # Create kafka consumer and subscribe to topics
-    consumer = KafkaConsumer(bootstrap_servers=conf['bootstrap_servers'])
-    consumer.subscribe(topics)
-    print("Subscribed to topics: ", topics, flush=True)
-
-    # Read model configurations
-    model_configurations = conf["bootstrap_servers"]
-
-    # Initialize models (build NN-s and train models)
-    models = []
-    for model_configuration in model_configurations:
-        model = m.Model(conf=model_configuration)
-        models.append(m)
-
-    # Infinite loop through kafka topic
-    for msg in consumer:
-        try:
-            # Extract data from message
-            rec = eval(msg.value)
-            ftr_vector = rec["frt_vector"]
-            timestamp = rec["timestamp"]
-            
-            # Extract topic name
-            topic = msg.topic
-
-            # Find the index of topic and the correct model in the list
-            index = topics.index(topic)
-            model = models[index]
-
-            # Create dict to insert
-            message_value = {
-                "timestamp": timestamp,
-                "feature_vector": ftr_vector
-            }
-
-            # Insert the message into the model (makes prediction, outputs result back to kafka)
-            model.message_insert(message_value=message_value)
-
-        except Exception as e:
-            print('Consumer error: ' + str(e), flush=True)
-
+    
 
 
 if (__name__ == '__main__'):

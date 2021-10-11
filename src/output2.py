@@ -27,7 +27,7 @@ for e in range(24):
     
     if(e%10 == 0):
         ran += 0.4
-    data = {"test_value" : tab_data[e][0],
+    data = {"ftr_vector" : tab_data[e][0],
 			"timestamp": str(datetime.now())}
 
     data_csv = {"test_value" : 3 + ran,

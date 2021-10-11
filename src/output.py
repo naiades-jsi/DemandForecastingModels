@@ -38,29 +38,16 @@ class KafkaOutput(OutputAbstract):
 
     def configure(self, conf: Dict[Any, Any]) -> None:
         super().configure(conf=conf)
-        self.node_id = conf['node_id']
+        self.output_topic = conf['output_topic']
 
-        self.producer = KafkaProducer(bootstrap_server=['localhost:9092'])
+        self.producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
+                         value_serializer=lambda x: 
+                         dumps(x).encode('utf-8'))
 
     def send_out(self, suggested_value: Any,status: str = "",
                  timestamp: Any = None, status_code: int = None,
                 value: Any = None,
                  algorithm: str = "Unknown") -> None:
-
-        if(status_code != 1 or self.send_ok):
-            # Construct the object to write
-            to_write = {"algorithm": algorithm}
-            if (value is not None):
-                to_write["value"] = value
-            if (status != ""):
-                to_write["status"] = status
-            if (timestamp is not None):
-                to_write["timestamp"] = timestamp
-            if (status_code is not None):
-                to_write["status_code"] = status_code
-            if(suggested_value is not None):
-                to_write["suggested_value"] = suggested_value
-            
-            kafka_topic = "predictions_" + str(self.node_id)
-
-            self.producer.send(kafka_topic, value=to_write)
+        print(self.output_topic)
+        print(value)
+        self.producer.send(self.output_topic, value=value)
