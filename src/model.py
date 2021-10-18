@@ -54,7 +54,8 @@ class LSTM_model():
         predicted_demand = [float(k) for k in self.nn.predict(np.atleast_2d(ftr_vector))[0]]
         output_dictionary = {"timestamp": message_value['timestamp'], 
         "value": predicted_demand, 
-        "horizon": self.horizon}
+        "horizon": self.horizon,
+        "prediction_time": time.time()}
 
         for output in self.outputs:
             output.send_out(timestamp=timestamp,
