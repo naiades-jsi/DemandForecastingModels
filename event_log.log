@@ -1,2 +1,3 @@
 05-Oct-21 15:25:24 - group_id is None: disabling auto-commit.
 05-Oct-21 15:26:01 - group_id is None: disabling auto-commit.
+12-Oct-21 14:01:41 - Found untraced functions such as lstm_cell_layer_call_and_return_conditional_losses, lstm_cell_layer_call_fn, lstm_cell_1_layer_call_and_return_conditional_losses, lstm_cell_1_layer_call_fn, lstm_cell_layer_call_fn while saving (showing 5 of 10). These functions will not be directly callable after loading.
