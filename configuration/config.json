@@ -26,8 +26,7 @@
         {
             "model_name": "alicante_alipark",
             "horizon" : 24,
-            "training_X_data": "train_X_data",
-            "training_Y_data": "train_Y_data",
+            "training_data": "train_data",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -47,8 +46,7 @@
         {
             "model_name": "alicante_autobuses",
             "horizon" : 24,
-            "training_X_data": "train_X_data",
-            "training_Y_data": "train_Y_data",
+            "training_data": "train_data",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -68,8 +66,7 @@
         {
             "model_name": "alicante_benalua",
             "horizon" : 24,
-            "training_X_data": "train_X_data",
-            "training_Y_data": "train_Y_data",
+            "training_data": "train_data",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -89,8 +86,7 @@
         {
             "model_name": "alicante_diputacion",
             "horizon" : 24,
-            "training_X_data": "train_X_data",
-            "training_Y_data": "train_Y_data",
+            "training_data": "train_data",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -110,8 +106,7 @@
         {
             "model_name": "alicante_mercado",
             "horizon" : 24,
-            "training_X_data": "train_X_data",
-            "training_Y_data": "train_Y_data",
+            "training_data": "train_data",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -131,8 +126,7 @@
         {
             "model_name": "alicante_montaneta",
             "horizon" : 24,
-            "training_X_data": "train_X_data",
-            "training_Y_data": "train_Y_data",
+            "training_data": "train_data",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -152,8 +146,7 @@
         {
             "model_name": "alicante_rambla",
             "horizon" : 24,
-            "training_X_data": "train_X_data",
-            "training_Y_data": "train_Y_data",
+            "training_data": "train_data",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,

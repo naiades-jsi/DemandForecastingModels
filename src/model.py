@@ -1,5 +1,6 @@
 from typing import Any, Dict, List
 import numpy as np 
+import numpy.ma as ma
 import pandas as pd 
 import tensorflow as tf
 from sklearn.preprocessing import MinMaxScaler
@@ -27,10 +28,10 @@ class LSTM_model():
                   configuration_location: str = None,
                   algorithm_indx: int = None) -> None:
 
-        filename_X = 'training_data/' + conf["training_X_data"] + '.npy'
-        filename_Y = 'training_data/' + conf["training_Y_data"] + '.npy'
-        self.training_X_data = np.load(filename_X, allow_pickle= True)
-        self.training_Y_data = np.load(filename_Y, allow_pickle=True)
+        f = h5py.File("autobuses_processed_data.h5","r")
+        self.training_data = ma.array(f["scaled_x"])
+        self.training_data.mask = ma.array(f["x_mask"])
+        f.close()
         self.model_structure = conf["model_structure"]
         self.horizon = conf["horizon"]
         self.model_name = conf["model_name"]
@@ -62,7 +63,40 @@ class LSTM_model():
                             suggested_value = None, 
                             algorithm= 'LSTM model')
 
+    
+    def partitionSet(test_fraction, data, partitions):
+        lenX = len(data)
+        test_size = int(len(data) * test_fraction)
+        test_df = data[int((partitions/100)*lenX):int((partitions/100)*lenX)+test_size]
+        train_df = ma.vstack((data[:int((partitions/100)*lenX)-1],data[int((partitions/100)*lenX)+test_size:]))
+        train_df[int((partitions/100)*lenX)] = ma.masked
+        return train_df, test_df
+
+    def Dataset(train, test, timesteps):
+        X_train = ma.array([train[t:t+timesteps] for t in range(0,len(train)-timesteps)])
+        y_train = train[timesteps:, :]
+        X_test = ma.array([test[t:t+timesteps] for t in range(0,len(test)-timesteps)])
+        y_test = test[timesteps:, :]
+        return X_train, y_train, X_test, y_test
+
     def build_train_model(self, model_structure: Dict[str, Any]):
+        def partitionSet(test_fraction, data, partitions):
+            lenX = len(data)
+            test_size = int(len(data) * test_fraction)
+            test_df = data[int((partitions/100)*lenX):int((partitions/100)*lenX)+test_size]
+            train_df = ma.vstack((data[:int((partitions/100)*lenX)-1],data[int((partitions/100)*lenX)+test_size:]))
+            train_df[int((partitions/100)*lenX)] = ma.masked
+            return train_df, test_df
+        
+        def Dataset(train, test, timesteps):
+            X_train = ma.array([train[t:t+timesteps] for t in range(0,len(train)-timesteps)])
+            y_train = train[timesteps:, :]
+            X_test = ma.array([test[t:t+timesteps] for t in range(0,len(test)-timesteps)])
+            y_test = test[timesteps:, :]
+            return X_train, y_train, X_test, y_test
+        
+        [self.training_dataf, self.testing_dataf] = partitionSet(model_structure["test_size"], self.training_data, 100-model_structure["test_size"]*100)
+        [self.training_X_data, self.training_Y_data, self.testing_X_data, self.testing_Y_data] = Dataset(self.training_dataf, self.testing_dataf)
         self.nn = Sequential()
         self.nn.add(Masking(mask_value=0., input_shape=(model_structure["n_of_timesteps"], model_structure["num_features"])))
         self.nn.add(LSTM(1, activation = 'tanh', input_shape = (model_structure["n_of_timesteps"], model_structure["num_features"]), return_sequences=True))
@@ -72,8 +106,8 @@ class LSTM_model():
         self.nn.add(Dense(1))
         self.nn.compile(loss = 'mse', optimizer='adam')
 
-        X_ = ma.filled(self.training_X_data[0],0)
-        Y_ = ma.filled(self.training_Y_data[0],0)
+        X_ = ma.filled(self.training_X_data,0)
+        Y_ = ma.filled(self.training_Y_data,0)
 
         self.model = self.nn.fit(X_, Y_, epochs = model_structure["epochs"], batch_size = model_structure["batch_size"],
                         validation_split = model_structure["validation_split"], shuffle = False, verbose = 0)
@@ -85,4 +119,4 @@ class LSTM_model():
         #print("Saving GAN")
 
     def load_model(self, filename):
-        self.model = keras.models.load_model(filename + "_LSTM")
+        self.model = tf.keras.models.load_model(filename + "_LSTM")
