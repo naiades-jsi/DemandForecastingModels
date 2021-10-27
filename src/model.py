@@ -44,17 +44,25 @@ class LSTM_model():
         # Build and train the model
         self.build_train_model(model_structure=self.model_structure)
 
-    def message_insert(self, message_value: Dict[str, Any]) -> Any:
+    def message_insert(self, message_value: Dict[Any, Any]) -> Any:
         ftr_vector = message_value['ftr_vector']
         ftr_vector = np.array(ftr_vector)
         print("ftr_vector:" + str(ftr_vector))
 
         timestamp = message_value["timestamp"]
 
+<<<<<<< HEAD
         predicted_demand = list(self.nn.predict(np.atleast_2d(ftr_vector))[0])
         output_dictionary = {"timestamp": message_value['timestamp'], 
         "value": str(predicted_demand), 
         "horizon": str(self.horizon)}
+=======
+        predicted_demand = [float(k) for k in self.nn.predict(np.atleast_2d(ftr_vector))[0]]
+        output_dictionary = {"timestamp": message_value['timestamp'], 
+        "value": predicted_demand, 
+        "horizon": self.horizon,
+        "prediction_time": time.time()}
+>>>>>>> 10d256de42ff1e47b13d90a7b95242e8952e61a0
 
         for output in self.outputs:
             output.send_out(timestamp=timestamp,
