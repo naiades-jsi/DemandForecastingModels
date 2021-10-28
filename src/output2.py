@@ -35,5 +35,5 @@ for e in range(24):
 			    "timestamp": str(datetime.now())}
     tab_data_csv.append(data_csv)
 
-    producer.send('features_alicante_alipark_flow_forecasting', value=data)
+    producer.send('meaurements_node_alicante_autobuses_flow', value=data)
     sleep(1)

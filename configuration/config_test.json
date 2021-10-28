@@ -5,15 +5,14 @@
     "group_id": "my-group",
     "value_deserializer": "lambda x: loads(x.decode('utf-8'))",
     "topics":[
-        "features_alicante_alipark_flow_forecasting"
+        "meaurements_node_alicante_autobuses_flow"
     ],
     "model_alg": ["LSTM_model()"],
     "model_conf":[
         {
-            "model_name": "alicante_alipark",
+            "model_name": "alicante_autobuses",
             "horizon" : 24,
-            "training_X_data": "train_X_data",
-            "training_Y_data": "train_Y_data",
+            "training_data": "train_data",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -27,7 +26,7 @@
             },
             "output": ["KafkaOutput()"],
             "output_conf": [{
-                "output_topic": "predictions_alicante_alipark_flow"
+                "output_topic": "meaurements_node_alicante_autobuses_flow"
             }]
         }
     ]
