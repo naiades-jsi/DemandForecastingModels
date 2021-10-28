@@ -28,7 +28,7 @@ class LSTM_model():
                   configuration_location: str = None,
                   algorithm_indx: int = None) -> None:
 
-        f = h5py.File("autobuses_processed_data.h5","r")
+        f = h5py.File("C:/Users/Utilizador/Desktop/GitRepo/training_data/autobuses_processed_data.h5","r")
         self.training_data = ma.array(f["scaled_x"])
         self.training_data.mask = ma.array(f["x_mask"])
         f.close()
@@ -63,29 +63,13 @@ class LSTM_model():
                             suggested_value = None, 
                             algorithm= 'LSTM model')
 
-    
-    def partitionSet(test_fraction, data, partitions):
-        lenX = len(data)
-        test_size = int(len(data) * test_fraction)
-        test_df = data[int((partitions/100)*lenX):int((partitions/100)*lenX)+test_size]
-        train_df = ma.vstack((data[:int((partitions/100)*lenX)-1],data[int((partitions/100)*lenX)+test_size:]))
-        train_df[int((partitions/100)*lenX)] = ma.masked
-        return train_df, test_df
-
-    def Dataset(train, test, timesteps):
-        X_train = ma.array([train[t:t+timesteps] for t in range(0,len(train)-timesteps)])
-        y_train = train[timesteps:, :]
-        X_test = ma.array([test[t:t+timesteps] for t in range(0,len(test)-timesteps)])
-        y_test = test[timesteps:, :]
-        return X_train, y_train, X_test, y_test
-
     def build_train_model(self, model_structure: Dict[str, Any]):
         def partitionSet(test_fraction, data, partitions):
             lenX = len(data)
             test_size = int(len(data) * test_fraction)
             test_df = data[int((partitions/100)*lenX):int((partitions/100)*lenX)+test_size]
             train_df = ma.vstack((data[:int((partitions/100)*lenX)-1],data[int((partitions/100)*lenX)+test_size:]))
-            train_df[int((partitions/100)*lenX)] = ma.masked
+            train_df[int((partitions/100)*lenX)-2] = ma.masked
             return train_df, test_df
         
         def Dataset(train, test, timesteps):
@@ -96,7 +80,7 @@ class LSTM_model():
             return X_train, y_train, X_test, y_test
         
         [self.training_dataf, self.testing_dataf] = partitionSet(model_structure["test_size"], self.training_data, 100-model_structure["test_size"]*100)
-        [self.training_X_data, self.training_Y_data, self.testing_X_data, self.testing_Y_data] = Dataset(self.training_dataf, self.testing_dataf)
+        [self.training_X_data, self.training_Y_data, self.testing_X_data, self.testing_Y_data] = Dataset(self.training_dataf, self.testing_dataf, 24)
         self.nn = Sequential()
         self.nn.add(Masking(mask_value=0., input_shape=(model_structure["n_of_timesteps"], model_structure["num_features"])))
         self.nn.add(LSTM(1, activation = 'tanh', input_shape = (model_structure["n_of_timesteps"], model_structure["num_features"]), return_sequences=True))
