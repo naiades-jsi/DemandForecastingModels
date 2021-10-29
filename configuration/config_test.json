@@ -5,12 +5,12 @@
     "group_id": "my-group",
     "value_deserializer": "lambda x: loads(x.decode('utf-8'))",
     "topics":[
-        "meaurements_node_alicante_autobuses_flow"
+        "input_topic"
     ],
     "model_alg": ["LSTM_model()"],
     "model_conf":[
         {
-            "model_name": "alicante_autobuses",
+            "model_name": "../training_data/alicante_Autobuses_Flow.csv",
             "horizon" : 24,
             "training_data": "./training_data/alicante_Autobuses_Flow.csv",
             "model_structure": {

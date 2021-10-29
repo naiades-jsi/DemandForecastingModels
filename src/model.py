@@ -29,7 +29,7 @@ class LSTM_model():
                   algorithm_indx: int = None) -> None:
 
         data = pd.read_csv(conf['training_data'])
-        Values = data['Values'].values
+        Values = data['value'].values
         X = ma.masked_invalid(Values).reshape(-1,1)
         X[X==0] = ma.masked
         self.training_data = X 
@@ -94,9 +94,13 @@ class LSTM_model():
         X_ = ma.filled(self.training_X_data,0)
         Y_ = ma.filled(self.training_Y_data,0)
 
+
+        print('fitting model')
         self.model = self.nn.fit(X_, Y_, epochs = model_structure["epochs"], batch_size = model_structure["batch_size"],
                         validation_split = model_structure["validation_split"], shuffle = False, verbose = 0)
         #self.model.save('/home/costa/JoaoModelsForAlicante/Autmeasurements_node_alicante_autobuses_flowoBus/models/AutobusModel.h5')
+
+        print('done')
         self.save_model(self.model_name)
 
     def save_model(self, filename):

@@ -35,5 +35,7 @@ for e in range(24):
 			    "timestamp": str(datetime.now())}
     tab_data_csv.append(data_csv)
 
-    producer.send('meaurements_node_alicante_autobuses_flow', value=data)
+    print(data)
+
+    producer.send('input_topic', value=data)
     sleep(1)
