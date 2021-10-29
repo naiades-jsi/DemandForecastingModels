@@ -29,7 +29,7 @@ class LSTM_model():
                   algorithm_indx: int = None) -> None:
 
         data = pd.read_csv(conf['training_data'])
-        Values = data['value'].values
+        Values = data['Values'].values
         X = ma.masked_invalid(Values).reshape(-1,1)
         X[X==0] = ma.masked
         self.training_data = X 
