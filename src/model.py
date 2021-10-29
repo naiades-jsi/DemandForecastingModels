@@ -16,7 +16,7 @@ import numpy.ma as ma
 import time
 
 class LSTM_model():
-    training_X_data: str
+    training_data: str
     model_structure: Dict[str, Any]
 
     def __init__(self, conf: Dict[Any, Any] = None) -> None:
@@ -28,10 +28,11 @@ class LSTM_model():
                   configuration_location: str = None,
                   algorithm_indx: int = None) -> None:
 
-        f = h5py.File("C:/Users/Utilizador/Desktop/GitRepo/training_data/autobuses_processed_data.h5","r")
-        self.training_data = ma.array(f["scaled_x"])
-        self.training_data.mask = ma.array(f["x_mask"])
-        f.close()
+        data = pd.read_csv(conf['training_data'])
+        Values = data['Values'].values
+        X = ma.masked_invalid(Values).reshape(-1,1)
+        X[X==0] = ma.masked
+        self.training_data = X 
         self.model_structure = conf["model_structure"]
         self.horizon = conf["horizon"]
         self.model_name = conf["model_name"]
