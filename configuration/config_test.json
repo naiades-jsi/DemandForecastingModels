@@ -12,7 +12,7 @@
         {
             "model_name": "alicante_autobuses",
             "horizon" : 24,
-            "training_data": "train_data",
+            "training_data": "./training_data/alicante_Autobuses_Flow.csv",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
