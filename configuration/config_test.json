@@ -5,14 +5,20 @@
     "group_id": "my-group",
     "value_deserializer": "lambda x: loads(x.decode('utf-8'))",
     "topics":[
-        "meaurements_node_alicante_autobuses_flow"
+        "input_topic"
     ],
     "model_alg": ["LSTM_model()"],
     "model_conf":[
         {
+<<<<<<< HEAD
             "model_name": "alicante_autobuses",
             "horizon" : 1,
             "training_data": "C:/Users/Utilizador/Desktop/WorkinServer/AutoBus/data_autobus.csv",
+=======
+            "model_name": "../training_data/alicante_Autobuses_Flow.csv",
+            "horizon" : 24,
+            "training_data": "./training_data/alicante_Autobuses_Flow.csv",
+>>>>>>> bb90bcae152c9dd53204c359ed50fe9cadcaca3c
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,

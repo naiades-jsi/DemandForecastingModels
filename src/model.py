@@ -42,7 +42,7 @@ class LSTM_model():
             X = X/maxX
             return minX,maxX,X
         data = pd.read_csv(conf['training_data'])
-        Values = data['Values'].values
+        Values = data['value'].values
         X = ma.masked_invalid(Values).reshape(-1,1)
         X[X==0] = ma.masked
         minX,maxX,scaled_x = Scaler(ma.compress_rows(X))
@@ -108,8 +108,18 @@ class LSTM_model():
         X_ = ma.filled(self.training_X_data,0)
         Y_ = ma.filled(self.training_Y_data,0)
 
+<<<<<<< HEAD
         self.Model = self.model.fit(X_, Y_, epochs = model_structure["epochs"], batch_size = model_structure["batch_size"],
                         validation_split = model_structure["validation_split"], shuffle = False, verbose = 0)
+=======
+
+        print('fitting model')
+        self.model = self.nn.fit(X_, Y_, epochs = model_structure["epochs"], batch_size = model_structure["batch_size"],
+                        validation_split = model_structure["validation_split"], shuffle = False, verbose = 0)
+        #self.model.save('/home/costa/JoaoModelsForAlicante/Autmeasurements_node_alicante_autobuses_flowoBus/models/AutobusModel.h5')
+
+        print('done')
+>>>>>>> bb90bcae152c9dd53204c359ed50fe9cadcaca3c
         self.save_model(self.model_name)
         return self.model, self.Model
 
@@ -117,4 +127,8 @@ class LSTM_model():
         self.model.save("models/" + filename + "_LSTM")
 
     def load_model(self, filename):
+<<<<<<< HEAD
         self.Model = tf.keras.models.load_model(filename + "_LSTM")
+=======
+        self.model = tf.keras.models.load_model(filename + "_LSTM")
+>>>>>>> bb90bcae152c9dd53204c359ed50fe9cadcaca3c
