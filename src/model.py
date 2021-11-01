@@ -8,15 +8,12 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.models import load_model
 from tensorflow.keras.layers import Dense, LSTM, Dropout, TimeDistributed, Masking
 from tensorflow.keras.optimizers import Adam
+
 from output import OutputAbstract, KafkaOutput
+
 import h5py
 import numpy.ma as ma
 import time
-import matplotlib.pyplot as plt
-
-
-physical_devices = tf.config.list_physical_devices('GPU')
-tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
 
 class LSTM_model():
     training_data: str
@@ -30,23 +27,12 @@ class LSTM_model():
     def configure(self, conf: Dict[Any, Any] = None,
                   configuration_location: str = None,
                   algorithm_indx: int = None) -> None:
-        def Scaler(X):
-            #scaler = MinMaxScaler()
-            # Fit Scaler
-            #scaler_X = scaler.fit(X)
-            # Transform Data
-            #X_ = scaler_X.transform(X)
-            minX = X.min()
-            X+=minX
-            maxX = X.max()
-            X = X/maxX
-            return minX,maxX,X
+
         data = pd.read_csv(conf['training_data'])
         Values = data['Values'].values
         X = ma.masked_invalid(Values).reshape(-1,1)
         X[X==0] = ma.masked
-        minX,maxX,scaled_x = Scaler(ma.compress_rows(X))
-        self.training_data = scaled_x
+        self.training_data = X 
         self.model_structure = conf["model_structure"]
         self.horizon = conf["horizon"]
         self.model_name = conf["model_name"]
@@ -66,7 +52,7 @@ class LSTM_model():
         print("ftr_vector:" + str(ftr_vector))
 
         timestamp = message_value["timestamp"]
-        predicted_demand = [float(k) for k in self.model.predict(np.atleast_2d(ftr_vector))[0]]
+        predicted_demand = [float(k) for k in self.nn.predict(np.atleast_2d(ftr_vector))[0]]
         output_dictionary = {"timestamp": message_value['timestamp'], 
         "value": predicted_demand, 
         "horizon": self.horizon,
@@ -84,7 +70,7 @@ class LSTM_model():
             test_size = int(len(data) * test_fraction)
             test_df = data[int((partitions/100)*lenX):int((partitions/100)*lenX)+test_size]
             train_df = ma.vstack((data[:int((partitions/100)*lenX)-1],data[int((partitions/100)*lenX)+test_size:]))
-            train_df[int((partitions/100)*lenX)] = ma.masked
+            train_df[int((partitions/100)*lenX)-2] = ma.masked
             return train_df, test_df
         
         def Dataset(train, test, timesteps):
@@ -94,27 +80,27 @@ class LSTM_model():
             y_test = test[timesteps:, :]
             return X_train, y_train, X_test, y_test
         
-        [self.training_dataf, self.testing_dataf] = partitionSet(model_structure["test_size"], self.training_data, 73)
+        [self.training_dataf, self.testing_dataf] = partitionSet(model_structure["test_size"], self.training_data, 100-model_structure["test_size"]*100)
         [self.training_X_data, self.training_Y_data, self.testing_X_data, self.testing_Y_data] = Dataset(self.training_dataf, self.testing_dataf, 24)
-        self.model = Sequential()
-        self.model.add(Masking(mask_value=0., input_shape=(model_structure["n_of_timesteps"], model_structure["num_features"])))
-        self.model.add(LSTM(1, activation = 'tanh', input_shape = (model_structure["n_of_timesteps"], model_structure["num_features"]), return_sequences=True))
-        self.model.add(Dropout(model_structure["dropout"]))
-        self.model.add(LSTM(model_structure["n_of_neurons"]))
-        self.model.add(Dropout(model_structure["dropout"]))
-        self.model.add(Dense(1))
-        self.model.compile(loss = 'mse', optimizer='adam')
+        self.nn = Sequential()
+        self.nn.add(Masking(mask_value=0., input_shape=(model_structure["n_of_timesteps"], model_structure["num_features"])))
+        self.nn.add(LSTM(1, activation = 'tanh', input_shape = (model_structure["n_of_timesteps"], model_structure["num_features"]), return_sequences=True))
+        self.nn.add(Dropout(model_structure["dropout"]))
+        self.nn.add(LSTM(model_structure["n_of_neurons"]))
+        self.nn.add(Dropout(model_structure["dropout"]))
+        self.nn.add(Dense(1))
+        self.nn.compile(loss = 'mse', optimizer='adam')
 
         X_ = ma.filled(self.training_X_data,0)
         Y_ = ma.filled(self.training_Y_data,0)
 
-        self.Model = self.model.fit(X_, Y_, epochs = model_structure["epochs"], batch_size = model_structure["batch_size"],
+        self.model = self.nn.fit(X_, Y_, epochs = model_structure["epochs"], batch_size = model_structure["batch_size"],
                         validation_split = model_structure["validation_split"], shuffle = False, verbose = 0)
         self.save_model(self.model_name)
-        return self.model, self.Model
 
     def save_model(self, filename):
-        self.model.save("models/" + filename + "_LSTM")
+        self.nn.save("models/" + filename + "_LSTM")
+        #print("Saving GAN")
 
     def load_model(self, filename):
         self.Model = tf.keras.models.load_model(filename + "_LSTM")

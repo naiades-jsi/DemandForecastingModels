@@ -11,8 +11,8 @@
     "model_conf":[
         {
             "model_name": "alicante_autobuses",
-            "horizon" : 1,
-            "training_data": "C:/Users/Utilizador/Desktop/WorkinServer/AutoBus/data_autobus.csv",
+            "horizon" : 24,
+            "training_data": "C:/Users/Utilizador/Desktop/WorkinServer/Autobus/data_autobus.csv",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -21,8 +21,8 @@
                 "dropout": 0.1,
                 "test_size": 0.25,
                 "validation_split": 0.2,
-                "epochs": 60,
-                "batch_size": 128        
+                "epochs": 1,
+                "batch_size": 128          
             },
             "output": ["KafkaOutput()"],
             "output_conf": [{
