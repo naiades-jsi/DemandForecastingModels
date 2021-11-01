@@ -32,7 +32,14 @@ class LSTM_model():
         Values = data['Values'].values
         X = ma.masked_invalid(Values).reshape(-1,1)
         X[X==0] = ma.masked
-        self.training_data = X 
+        def Scaler(X):
+            minX = X.min()
+            X+=minX
+            maxX = X.max()
+            X = X/maxX
+            return minX,maxX,X
+        minX,maxX,scaled_x = Scaler(ma.compress_rows(X))    
+        self.training_data = scaled_x
         self.model_structure = conf["model_structure"]
         self.horizon = conf["horizon"]
         self.model_name = conf["model_name"]
