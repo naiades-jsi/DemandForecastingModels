@@ -167,3 +167,64 @@ kafka.errors.CommitFailedError: CommitFailedError: Commit cannot be completed si
             or by reducing the maximum size of batches returned in poll()
             with max_poll_records.
             
+03-Nov-21 13:24:19 - <BrokerConnection node_id=0 host=DESKTOP-GAI8M57:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: socket disconnected
+03-Nov-21 13:24:19 - Node 0 connection failed -- refreshing metadata
+03-Nov-21 13:24:19 - Fetch to node 0 failed: KafkaConnectionError: socket disconnected
+03-Nov-21 13:24:19 - Heartbeat session expired, marking coordinator dead
+03-Nov-21 13:24:19 - Marking the coordinator dead (node coordinator-0) for group my-group: Heartbeat session expired.
+03-Nov-21 13:24:20 - Auto offset commit failed for group my-group: NodeNotReadyError: coordinator-0
+03-Nov-21 13:24:20 - Auto offset commit failed for group my-group: CommitFailedError: Commit cannot be completed since the group has already
+            rebalanced and assigned the partitions to another member.
+            This means that the time between subsequent calls to poll()
+            was longer than the configured max_poll_interval_ms, which
+            typically implies that the poll loop is spending too much
+            time message processing. You can address this either by
+            increasing the rebalance timeout with max_poll_interval_ms,
+            or by reducing the maximum size of batches returned in poll()
+            with max_poll_records.
+            
+03-Nov-21 13:24:20 - Offset commit failed: This is likely to cause duplicate message delivery
+Traceback (most recent call last):
+  File "C:\Users\Utilizador\AppData\Local\Programs\Python\Python39\lib\site-packages\kafka\coordinator\consumer.py", line 528, in _maybe_auto_commit_offsets_sync
+    self.commit_offsets_sync(self._subscription.all_consumed_offsets())
+  File "C:\Users\Utilizador\AppData\Local\Programs\Python\Python39\lib\site-packages\kafka\coordinator\consumer.py", line 521, in commit_offsets_sync
+    raise future.exception # pylint: disable-msg=raising-bad-type
+kafka.errors.CommitFailedError: CommitFailedError: Commit cannot be completed since the group has already
+            rebalanced and assigned the partitions to another member.
+            This means that the time between subsequent calls to poll()
+            was longer than the configured max_poll_interval_ms, which
+            typically implies that the poll loop is spending too much
+            time message processing. You can address this either by
+            increasing the rebalance timeout with max_poll_interval_ms,
+            or by reducing the maximum size of batches returned in poll()
+            with max_poll_records.
+            
+03-Nov-21 15:04:15 - Heartbeat session expired, marking coordinator dead
+03-Nov-21 15:04:16 - Marking the coordinator dead (node coordinator-0) for group my-group: Heartbeat session expired.
+03-Nov-21 15:04:16 - Auto offset commit failed for group my-group: NodeNotReadyError: coordinator-0
+03-Nov-21 15:04:16 - Auto offset commit failed for group my-group: CommitFailedError: Commit cannot be completed since the group has already
+            rebalanced and assigned the partitions to another member.
+            This means that the time between subsequent calls to poll()
+            was longer than the configured max_poll_interval_ms, which
+            typically implies that the poll loop is spending too much
+            time message processing. You can address this either by
+            increasing the rebalance timeout with max_poll_interval_ms,
+            or by reducing the maximum size of batches returned in poll()
+            with max_poll_records.
+            
+03-Nov-21 15:04:16 - Offset commit failed: This is likely to cause duplicate message delivery
+Traceback (most recent call last):
+  File "C:\Users\Utilizador\AppData\Local\Programs\Python\Python39\lib\site-packages\kafka\coordinator\consumer.py", line 528, in _maybe_auto_commit_offsets_sync
+    self.commit_offsets_sync(self._subscription.all_consumed_offsets())
+  File "C:\Users\Utilizador\AppData\Local\Programs\Python\Python39\lib\site-packages\kafka\coordinator\consumer.py", line 521, in commit_offsets_sync
+    raise future.exception # pylint: disable-msg=raising-bad-type
+kafka.errors.CommitFailedError: CommitFailedError: Commit cannot be completed since the group has already
+            rebalanced and assigned the partitions to another member.
+            This means that the time between subsequent calls to poll()
+            was longer than the configured max_poll_interval_ms, which
+            typically implies that the poll loop is spending too much
+            time message processing. You can address this either by
+            increasing the rebalance timeout with max_poll_interval_ms,
+            or by reducing the maximum size of batches returned in poll()
+            with max_poll_records.
+            
