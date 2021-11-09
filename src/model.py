@@ -8,9 +8,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.models import load_model
 from tensorflow.keras.layers import Dense, LSTM, Dropout, TimeDistributed, Masking
 from tensorflow.keras.optimizers import Adam
-
 from output import OutputAbstract, KafkaOutput
-
 import h5py
 import numpy.ma as ma
 import time
@@ -56,6 +54,7 @@ class LSTM_model():
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
         ftr_vector = message_value['ftr_vector']
         ftr_vector = np.array(ftr_vector)
+        ftr_vector = tf.convert_to_tensor(ftr_vector)
         print("ftr_vector:" + str(ftr_vector))
 
         timestamp = message_value["timestamp"]
