@@ -12,7 +12,7 @@
         {
             "model_name": "alicante_autobuses",
             "horizon" : 1,
-            "training_data": "C:/Users/Utilizador/Desktop/WorkinServer/Autobus/data_autobus.csv",
+            "training_data": "./data_autobus.csv",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
