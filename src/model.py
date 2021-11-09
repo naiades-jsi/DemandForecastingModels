@@ -54,7 +54,6 @@ class LSTM_model():
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
         ftr_vector = message_value['ftr_vector']
         ftr_vector = np.array(ftr_vector)
-        ftr_vector = tf.convert_to_tensor(ftr_vector)
         print("ftr_vector:" + str(ftr_vector))
 
         timestamp = message_value["timestamp"]
@@ -97,8 +96,11 @@ class LSTM_model():
         self.nn.add(Dense(1))
         self.nn.compile(loss = 'mse', optimizer='adam')
 
+
         X_ = ma.filled(self.training_X_data,0)
         Y_ = ma.filled(self.training_Y_data,0)
+        X_ = tf.convert_to_tensor(X_)
+        Y_ = tf.convert_to_tensor(Y_)
 
         self.model = self.nn.fit(X_, Y_, epochs = model_structure["epochs"], batch_size = model_structure["batch_size"],
                         validation_split = model_structure["validation_split"], shuffle = False, verbose = 0)
