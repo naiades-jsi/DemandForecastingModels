@@ -31,12 +31,12 @@ class ConsumerAbstract(ABC):
     def read(self) -> None:
         pass
 
-    # rewrites anomaly detection configuration
-    def rewrite_configuration(self, anomaly_detection_conf: Dict[str, Any]
+    # rewrites prediction  configuration
+    def rewrite_configuration(self, prediction__conf: Dict[str, Any]
                               ) -> None:
         with open(self.configuration_location) as c:
             conf = json.load(c)
-            conf["anomaly_detection_conf"] = anomaly_detection_conf
+            conf["prediction_conf"] = prediction_conf
 
         with open(self.configuration_location, "w") as c:
             json.dump(conf, c)
@@ -45,9 +45,9 @@ class ConsumerAbstract(ABC):
 
 
 class ConsumerKafka(ConsumerAbstract):
-    anomalies: List["AnomalyDetectionAbstract"]
-    anomaly_names: List[str]
-    anomaly_configurations: List[Any]
+    anomalies: List["predictionAbstract"]
+    prediction_names: List[str]
+    prediction_configurations: List[Any]
     consumer: KafkaConsumer
 
     def __init__(self, conf: Dict[Any, Any] = None,
@@ -82,7 +82,7 @@ class ConsumerKafka(ConsumerAbstract):
                         value_deserializer=eval(con['value_deserializer']))
         self.consumer.subscribe(self.topics)
 
-        # Initialize a list of anomaly detection algorithms, each for a
+        # Initialize a list of prediction algorithms, each for a
         # seperate topic
         self.model_names = con["model_alg"]
         self.model_configurations = con["model_conf"]
@@ -154,7 +154,7 @@ class ConsumerKafka(ConsumerAbstract):
 
 
 class ConsumerFile(ConsumerAbstract):
-    anomaly: "AnomalyDetectionAbstract"
+    prediction: "predictionAbstract"
     file_name: str
     file_path: str
 
@@ -176,9 +176,9 @@ class ConsumerFile(ConsumerAbstract):
         self.file_path = self.file_name
 
         # Expects a list but only requires the first element
-        self.anomaly = eval(con["anomaly_detection_alg"][0])
-        anomaly_configuration = con["anomaly_detection_conf"][0]
-        self.anomaly.configure(anomaly_configuration,
+        self.prediction = eval(con["prediction__alg"][0])
+        prediction_configuration = con["prediction__conf"][0]
+        self.prediction.configure(prediction_configuration,
                                configuration_location=self.configuration_location,
                                algorithm_indx=0)
 
@@ -196,7 +196,7 @@ class ConsumerFile(ConsumerAbstract):
             data = json.load(json_file)
             tab = data["data"]
         for d in tab:
-            self.anomaly.message_insert(d)
+            self.prediction.message_insert(d)
 
     def read_csv(self):
         with open(self.file_path, 'r') as read_obj:
@@ -224,11 +224,11 @@ class ConsumerFile(ConsumerAbstract):
 
                 d["ftr_vector"] = ftr_vector
 
-                self.anomaly.message_insert(d)
+                self.prediction.message_insert(d)
 
 
 class ConsumerFileKafka(ConsumerKafka, ConsumerFile):
-    anomaly: "AnomalyDetectionAbstract"
+    prediction: "predictionAbstract"
     file_name: str
     file_path: str
 
@@ -261,9 +261,9 @@ class ConsumerFileKafka(ConsumerKafka, ConsumerFile):
         self.consumer.subscribe(self.topics)
 
         # Expects a list but only requires the first element
-        self.anomaly = eval(con["anomaly_detection_alg"][0])
-        anomaly_configuration = con["anomaly_detection_conf"][0]
-        self.anomaly.configure(anomaly_configuration,
+        self.prediction = eval(con["prediction__alg"][0])
+        prediction_configuration = con["prediction__conf"][0]
+        self.prediction.configure(prediction_configuration,
                                configuration_location=self.configuration_location,
                                algorithm_indx=0)
 
@@ -273,4 +273,4 @@ class ConsumerFileKafka(ConsumerKafka, ConsumerFile):
         # expects only one topic
         for message in self.consumer:
             value = message.value
-            self.anomaly.message_insert(value)
+            self.prediction.message_insert(value)
