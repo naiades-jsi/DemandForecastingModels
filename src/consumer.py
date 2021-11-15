@@ -117,7 +117,7 @@ class ConsumerKafka(ConsumerAbstract):
 
             if message is not None:
                 value = message.value
-                self.models[algorithm_indx].message_insert(value)
+                self.models[algorithm_indx].feature_vector_creation(value)
 
     def filter_by_time(self, message, target_time, tolerance):
         #convert to timedelta objects

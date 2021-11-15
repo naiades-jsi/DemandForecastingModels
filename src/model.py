@@ -21,6 +21,7 @@ class LSTM_model():
         super().__init__()
         if(conf is not None):
             self.configure(conf)
+        self.feature_vector_array = []
 
     def configure(self, conf: Dict[Any, Any] = None,
                   configuration_location: str = None,
@@ -50,6 +51,25 @@ class LSTM_model():
 
         # Build and train the model
         self.build_train_model(model_structure=self.model_structure)
+
+    def feature_vector_creation(self, message_value: Dict[Any, Any]) -> Any:
+        value = message_value["value"]
+        timestamp = message_value["time"]
+
+        self.feature_vector_array.append(value)
+
+        if(len(self.feature_vector_array) != 24):
+            print("not enough values")
+            return
+
+        dict_to_insert = {
+            "ftr_vector": self.feature_vector_array,
+            "timestamp": timestamp
+        }
+
+        self.message_insert(message_value=dict_to_insert)
+
+        self.feature_vector_array = self.feature_vector_array[1:]
 
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
         ftr_vector = message_value['ftr_vector']
