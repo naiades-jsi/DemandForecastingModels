@@ -8,7 +8,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.models import load_model
 from tensorflow.keras.layers import Dense, LSTM, Dropout, TimeDistributed, Masking
 from tensorflow.keras.optimizers import Adam
-from output import OutputAbstract, KafkaOutput
+from src.output import OutputAbstract, KafkaOutput
 import h5py
 import numpy.ma as ma
 import time
@@ -53,12 +53,13 @@ class LSTM_model():
         self.build_train_model(model_structure=self.model_structure)
 
     def feature_vector_creation(self, message_value: Dict[Any, Any]) -> Any:
-        value = message_value["value"]
-        timestamp = message_value["time"]
+        print(message_value)
+        value = message_value["ftr_vector"]
+        timestamp = message_value["timestamp"]
 
         self.feature_vector_array.append(value)
 
-        if(len(self.feature_vector_array) != 24):
+        if(len(self.feature_vector_array[-1]) != 24):
             print("not enough values")
             return
 
