@@ -58,7 +58,7 @@ class LSTM_model():
 
         self.feature_vector_array.append(value)
 
-        if(len(self.feature_vector_array) != 24):
+        if(len(self.feature_vector_array[-1]) != 24):
             print("not enough values")
             return
 
