@@ -5,13 +5,13 @@
     "group_id": "my-group",
     "value_deserializer": "lambda x: loads(x.decode('utf-8'))",
     "topics":[
-        "features_alicante_alipark_flow_forecasting",
-        "features_alicante_autobusesflow_forecasting",
-        "features_alicante_benalua_flow_forecasting",
-        "features_alicante_diputacion_flow_forecasting",
-        "features_alicante_mercado_flow_forecasting",
-        "features_alicante_montaneta_flow_forecasting",
-        "features_alicante_rambla_flow_forecasting"
+        "features_alicante_alipark_forecasting_w",
+        "features_alicante_alipark_forecasting_w",
+        "features_alicante_alipark_forecasting_w",
+        "features_alicante_alipark_forecasting_w",
+        "features_alicante_alipark_forecasting_w",
+        "features_alicante_alipark_forecasting_w",
+        "features_alicante_alipark_forecasting_w"
     ],
     "bootstrap_servers": "localhost:9092",
     "model_alg": [
@@ -19,14 +19,14 @@
         "LSTM_model()", 
         "LSTM_model()", 
         "LSTM_model()", 
-        "LSTM_model()", 
-        "LSTM_model()", 
+        "LSTM_model()",
+        "LSTM_model()",
         "LSTM_model()"],
     "model_conf":[
         {
-            "model_name": "alicante_alipark",
+            "model_name": "alicante_alipark_w",
             "horizon" : 24,
-            "training_data": "./data_alipark.csv",
+            "training_data": "./data_alipark_w.csv",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -40,13 +40,13 @@
             },
             "output": ["KafkaOutput()"],
             "output_conf": [{
-                "output_topic": "predictions_alicante_alipark_flow"
+                "output_topic": "predictions_alicante_alicante_w"
             }]
         },
         {
-            "model_name": "alicante_autobuses",
+            "model_name": "alicante_autobuses_w",
             "horizon" : 24,
-            "training_data": "./data_autobus.csv",
+            "training_data": "C:/Users/Utilizador/Desktop/Institute/Institute/data_autobus_w.csv",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -64,9 +64,9 @@
             }]
         },
         {
-            "model_name": "alicante_benalua",
+            "model_name": "alicante_benalua_w",
             "horizon" : 24,
-            "training_data": "./data_benalua.csv",
+            "training_data": "./data_benalua_w.csv",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -80,13 +80,13 @@
             },
             "output": ["KafkaOutput()"],
             "output_conf": [{
-                "output_topic": "predictions_alicante_benalua_flow"
+                "output_topic": "predictions_alicante_benalua_w"
             }]
         },
         {
-            "model_name": "alicante_diputacion",
+            "model_name": "alicante_diputacion_w",
             "horizon" : 24,
-            "training_data": "./data_diputacion.csv",
+            "training_data": "./data_diputacion_w.csv",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -100,13 +100,13 @@
             },
             "output": ["KafkaOutput()"],
             "output_conf": [{
-                "output_topic": "predictions_alicante_diputacion_flow"
+                "output_topic": "predictions_alicante_diputacion_w"
             }]
         },
         {
-            "model_name": "alicante_mercado",
+            "model_name": "alicante_mercado_w",
             "horizon" : 24,
-            "training_data": "./data_mercado.csv",
+            "training_data": "./data_mercado_w.csv",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -120,13 +120,13 @@
             },
             "output": ["KafkaOutput()"],
             "output_conf": [{
-                "output_topic": "predictions_alicante_mercado_flow"
+                "output_topic": "predictions_alicante_mercado_w"
             }]
         },
         {
-            "model_name": "alicante_montaneta",
+            "model_name": "alicante_montaneta_w",
             "horizon" : 24,
-            "training_data": "./data_pzamont.csv",
+            "training_data": "./data_montaneta_w.csv",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -140,13 +140,13 @@
             },
             "output": ["KafkaOutput()"],
             "output_conf": [{
-                "output_topic": "predictions_alicante_montaneta_flow"
+                "output_topic": "predictions_alicante_montaneta_w"
             }]
         },
         {
-            "model_name": "alicante_rambla",
+            "model_name": "alicante_rambla_w",
             "horizon" : 24,
-            "training_data": "./data_rambla.csv",
+            "training_data": "./data_rambla_w.csv",
             "model_structure": {
                 "n_of_neurons": 64,
                 "n_of_timesteps": 24,
@@ -160,7 +160,7 @@
             },
             "output": ["KafkaOutput()"],
             "output_conf": [{
-                "output_topic": "predictions_alicante_rambla_flow"
+                "output_topic": "predictions_alicante_rambla_w"
             }]
         }
     ]
