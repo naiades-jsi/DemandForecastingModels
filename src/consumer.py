@@ -62,6 +62,8 @@ class ConsumerKafka(ConsumerAbstract):
             self.configure(con=conf)
         else:
             print("No configuration was given")
+        
+        print("ConsumerKafka initialized", flush=True)
 
     def configure(self, con: Dict[Any, Any] = None) -> None:
         if(con is None):
@@ -75,7 +77,7 @@ class ConsumerKafka(ConsumerAbstract):
 
         self.topics = con['topics']
         self.consumer = KafkaConsumer(
-                        bootstrap_servers=con['bootstrap_servers'],
+                        bootstrap_servers="localhost:9092",
                         auto_offset_reset=con['auto_offset_reset'],
                         enable_auto_commit=con['enable_auto_commit'],
                         group_id=con['group_id'],
@@ -93,7 +95,9 @@ class ConsumerKafka(ConsumerAbstract):
                 "Number of algorithms, configurations and topics does not match"
         self.models = []
         algorithm_indx = 0
+        print("ConsumerKafka configuring models", flush=True)
         for model_name in self.model_names:
+            print("Working on model " + str(model_name) + " " + str(algorithm_indx), flush=True)
             Model = eval(model_name)
             Model.configure(self.model_configurations[algorithm_indx],
                               configuration_location=self.configuration_location,
@@ -102,6 +106,7 @@ class ConsumerKafka(ConsumerAbstract):
             algorithm_indx += 1
             
     def read(self) -> None:
+        print("ConsumerKafka reading", flush=True)
         for message in self.consumer:
             # Get topic and insert into correct algorithm
             #print(message)
@@ -123,7 +128,7 @@ class ConsumerKafka(ConsumerAbstract):
         #convert to timedelta objects
 
         # Convert unix timestamp to datetime format (with seconds unit if
-        # possible alse miliseconds)
+        # possible else miliseconds)
 
         print('filering; timestamp: ' + str(message.value['timestamp']), flush=True)
         try:
@@ -170,6 +175,7 @@ class ConsumerFile(ConsumerAbstract):
             self.configure(con=conf)
         else:
             print("No configuration was given")
+        print("ConsumerFile init", flush=True)
 
     def configure(self, con: Dict[Any, Any] = None) -> None:
         self.file_name = con["file_name"]
@@ -181,6 +187,7 @@ class ConsumerFile(ConsumerAbstract):
         self.prediction.configure(prediction_configuration,
                                configuration_location=self.configuration_location,
                                algorithm_indx=0)
+        print("ConsumerFile configured", flush=True)
 
     def read(self) -> None:
         if(self.file_name[-4:] == "json"):
@@ -190,6 +197,7 @@ class ConsumerFile(ConsumerAbstract):
         else:
             print("Consumer file type not supported.")
             sys.exit(1)
+        print("ConsumerFile read", flush=True)
 
     def read_JSON(self):
         with open(self.file_path) as json_file:
@@ -244,6 +252,7 @@ class ConsumerFileKafka(ConsumerKafka, ConsumerFile):
             self.configure(con=conf)
         else:
             print("No configuration was given")
+        print("ConsumerFileKafka init", flush=True)
 
     def configure(self, con: Dict[Any, Any] = None) -> None:
         # File configuration
@@ -253,7 +262,7 @@ class ConsumerFileKafka(ConsumerKafka, ConsumerFile):
         # Kafka configuration
         self.topics = con['topics']
         self.consumer = KafkaConsumer(
-                        bootstrap_servers=con['bootstrap_servers'],
+                        bootstrap_servers="192.168.0.102:9092",
                         auto_offset_reset=con['auto_offset_reset'],
                         enable_auto_commit=con['enable_auto_commit'],
                         group_id=con['group_id'],
@@ -266,10 +275,11 @@ class ConsumerFileKafka(ConsumerKafka, ConsumerFile):
         self.prediction.configure(prediction_configuration,
                                configuration_location=self.configuration_location,
                                algorithm_indx=0)
+        print("ConsumerFileKafka configured", flush=True)
 
     def read(self) -> None:
         ConsumerFile.read(self)
-        
+        print("ConsumerFileKafka reading", flush=True)
         # expects only one topic
         for message in self.consumer:
             value = message.value

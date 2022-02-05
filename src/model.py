@@ -53,13 +53,13 @@ class LSTM_model():
         self.build_train_model(model_structure=self.model_structure)
 
     def feature_vector_creation(self, message_value: Dict[Any, Any]) -> Any:
-        value = message_value["value"]
-        timestamp = message_value["time"]
+        value = message_value["ftr_vector"]
+        timestamp = message_value["timestamp"]
 
         self.feature_vector_array.append(value)
 
         if(len(self.feature_vector_array[-1]) != 24):
-            print("not enough values")
+            print("Not enough values", flush=True)
             return
 
         dict_to_insert = {
@@ -74,7 +74,7 @@ class LSTM_model():
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
         ftr_vector = message_value['ftr_vector']
         ftr_vector = np.array(ftr_vector)
-        print("ftr_vector:" + str(ftr_vector))
+        print("ftr_vector:" + str(ftr_vector), flush=True)
 
         timestamp = message_value["timestamp"]
         predicted_demand = [float(k) for k in self.nn.predict(np.atleast_2d(ftr_vector))[0]]

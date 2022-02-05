@@ -30,6 +30,7 @@ def ping_watchdog(process):
         time.sleep(interval)
 
 def start_consumer(args):
+    print("Start consumers", flush=True)
     if(args.data_file):   
         consumer = ConsumerFile(configuration_location=args.config)
     elif(args.data_both):
