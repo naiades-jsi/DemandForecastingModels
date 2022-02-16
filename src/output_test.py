@@ -13,7 +13,7 @@ producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
 
 tab_data = []
 for i in range(0,50):
-    n = np.random.rand(1,24)
+    n = 20*np.random.rand(1,24)
     n = n.tolist()
     tab_data.append(n)
     print(tab_data)
@@ -22,7 +22,7 @@ tab_data_csv = []
 for e in range(24):
     print(str(e))
     timestamp = e
-    ran = float(np.random.normal(0, 0.1))
+    ran = float(np.random.normal(0, 0.01))
     print(tab_data[e][0])
     
     if(e%10 == 0):
