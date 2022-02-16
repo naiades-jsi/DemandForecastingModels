@@ -35,19 +35,20 @@ class KafkaOutput(OutputAbstract):
         # print(conf)
         if(conf is not None):
             self.configure(conf=conf)
+        print("KafkaOutput initialized", flush=True)
 
     def configure(self, conf: Dict[Any, Any]) -> None:
         super().configure(conf=conf)
         self.output_topic = conf['output_topic']
 
-        self.producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
-                         value_serializer=lambda x: 
-                         dumps(x).encode('utf-8'))
+        self.producer = KafkaProducer(bootstrap_servers="localhost:9092",
+                         value_serializer=lambda x: dumps(x).encode('utf-8'))
+        print("KafkaOutput configured", flush=True)
 
     def send_out(self, suggested_value: Any,status: str = "",
                  timestamp: Any = None, status_code: int = None,
                 value: Any = None,
                  algorithm: str = "Unknown") -> None:
-        print(self.output_topic)
-        print(value)
+        print(self.output_topic, flush=True)
+        print(value, flush=True)
         self.producer.send(self.output_topic, value=value)

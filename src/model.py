@@ -78,8 +78,8 @@ class LSTM_model():
         print("ftr_vector:" + str(ftr_vector))
         minX = ftr_vector.min()
         maxX = ftr_vector.max()
-        ftr_vector+=minX
-        scaled_ftr_vector = ftr_vector/maxX
+        ftr_vector-=minX
+        scaled_ftr_vector = ftr_vector/(maxX-minX)
         print("scaled_ftr_vector" + str(scaled_ftr_vector))
         timestamp = message_value["timestamp"]
         predicted_demand = np.array([float(k) for k in self.nn.predict(np.atleast_2d(scaled_ftr_vector))])
