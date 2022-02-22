@@ -2127,3 +2127,15 @@ ConnectionResetError: [WinError 10054] Uma ligação existente foi forçada a fecha
 16-Feb-22 14:49:09 - Found untraced functions such as lstm_cell_layer_call_and_return_conditional_losses, lstm_cell_layer_call_fn, lstm_cell_1_layer_call_and_return_conditional_losses, lstm_cell_1_layer_call_fn, lstm_cell_layer_call_fn while saving (showing 5 of 10). These functions will not be directly callable after loading.
 16-Feb-22 14:52:21 - Found untraced functions such as lstm_cell_layer_call_and_return_conditional_losses, lstm_cell_layer_call_fn, lstm_cell_1_layer_call_and_return_conditional_losses, lstm_cell_1_layer_call_fn, lstm_cell_layer_call_fn while saving (showing 5 of 10). These functions will not be directly callable after loading.
 16-Feb-22 15:07:47 - Found untraced functions such as lstm_cell_layer_call_and_return_conditional_losses, lstm_cell_layer_call_fn, lstm_cell_1_layer_call_and_return_conditional_losses, lstm_cell_1_layer_call_fn, lstm_cell_layer_call_fn while saving (showing 5 of 10). These functions will not be directly callable after loading.
+22-Feb-22 16:54:44 - Topic features_alicante_autobusesflow_forecasting is not available during auto-create initialization
+22-Feb-22 16:54:44 - Topic features_alicante_diputacion_flow_forecasting is not available during auto-create initialization
+22-Feb-22 16:54:44 - Topic features_alicante_montaneta_flow_forecasting is not available during auto-create initialization
+22-Feb-22 16:54:44 - Topic features_alicante_rambla_flow_forecasting is not available during auto-create initialization
+22-Feb-22 16:54:44 - Topic features_alicante_mercado_flow_forecasting is not available during auto-create initialization
+22-Feb-22 16:54:44 - Topic features_alicante_benalua_flow_forecasting is not available during auto-create initialization
+22-Feb-22 16:54:44 - No partition metadata for topic features_alicante_diputacion_flow_forecasting
+22-Feb-22 16:54:44 - No partition metadata for topic features_alicante_benalua_flow_forecasting
+22-Feb-22 16:54:44 - No partition metadata for topic features_alicante_mercado_flow_forecasting
+22-Feb-22 16:54:44 - No partition metadata for topic features_alicante_montaneta_flow_forecasting
+22-Feb-22 16:54:44 - No partition metadata for topic features_alicante_autobusesflow_forecasting
+22-Feb-22 16:54:44 - No partition metadata for topic features_alicante_rambla_flow_forecasting

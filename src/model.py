@@ -27,20 +27,21 @@ class LSTM_model():
                   configuration_location: str = None,
                   algorithm_indx: int = None) -> None:
 
-        data = pd.read_csv(conf['training_data'])
-        Values = data['Values'].values
-        X = ma.masked_invalid(Values).reshape(-1,1)
-        X[X==0] = ma.masked
-        def Scaler(X):
-            minX = X.min()
-            maxX = X.max()
-            X-=minX
-            X = X/(maxX-minX)
-            return minX,maxX,X
-        minX,maxX,scaled_x = Scaler(ma.compress_rows(X))    
-        self.training_data = scaled_x
-        self.model_structure = conf["model_structure"]
-        self.horizon = conf["horizon"]
+        #data = pd.read_csv(conf['training_data'])
+        #Values = data['Values'].values
+        #X = ma.masked_invalid(Values).reshape(-1,1)
+        #X[X==0] = ma.masked
+        #def Scaler(X):
+        #    minX = X.min()
+        #    maxX = X.max()
+        #    X-=minX
+        #    X = X/(maxX-minX)
+        #    return minX,maxX,X
+        #minX,maxX,scaled_x = Scaler(ma.compress_rows(X))    
+        #self.training_data = scaled_x
+        #self.model_structure = conf["model_structure"]
+        self.model_file=conf["model_file"]
+        #self.horizon = conf["horizon"]
         self.model_name = conf["model_name"]
 
         if ("model_file" in conf):
@@ -54,16 +55,15 @@ class LSTM_model():
 
         # Build and train the model
         #self.build_train_model(model_structure=self.model_structure)
+    def load_model(self, filename):
+        self.nn = load_model(filename)
 
         # Load model
         self.load_model(self.model_file)
 
-    def save_model(self, filename):
-        self.nn.save("models/" + filename + "_LSTM")
+    #def save_model(self, filename):
+    #    self.nn.save("LoadedModels/" + filename + "_LSTM")
         #print("Saving GAN")
-
-    def load_model(self, filename):
-        self.nn = tf.keras.models.load_model(filename + "_LSTM")
 
     def feature_vector_creation(self, message_value: Dict[Any, Any]) -> Any:
         print(message_value)
