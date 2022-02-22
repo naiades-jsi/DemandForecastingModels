@@ -43,6 +43,9 @@ class LSTM_model():
         self.horizon = conf["horizon"]
         self.model_name = conf["model_name"]
 
+        if ("model_file" in conf):
+            self.model_file = conf["model_file"]
+
         # OUTPUT/VISUALIZATION INITIALIZATION & CONFIGURATION
         self.outputs = [eval(o) for o in conf["output"]]
         output_configurations = conf["output_conf"]
@@ -50,7 +53,17 @@ class LSTM_model():
             self.outputs[o].configure(output_configurations[o])
 
         # Build and train the model
-        self.build_train_model(model_structure=self.model_structure)
+        #self.build_train_model(model_structure=self.model_structure)
+
+        # Load model
+        self.load_model(self.model_file)
+
+    def save_model(self, filename):
+        self.nn.save("models/" + filename + "_LSTM")
+        #print("Saving GAN")
+
+    def load_model(self, filename):
+        self.nn = tf.keras.models.load_model(filename + "_LSTM")
 
     def feature_vector_creation(self, message_value: Dict[Any, Any]) -> Any:
         print(message_value)
