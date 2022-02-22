@@ -12,6 +12,7 @@ from src.output import OutputAbstract, KafkaOutput
 import h5py
 import numpy.ma as ma
 import time
+import matplotlib.pyplot as plt
 
 class LSTM_model():
     training_data: str
@@ -56,10 +57,10 @@ class LSTM_model():
         # Build and train the model
         #self.build_train_model(model_structure=self.model_structure)
     def load_model(self, filename):
-        self.nn = load_model(filename)
+        load_model(filename)
 
         # Load model
-        self.load_model(self.model_file)
+        self.nn = self.load_model(self.model_file)
 
     #def save_model(self, filename):
     #    self.nn.save("LoadedModels/" + filename + "_LSTM")
@@ -86,6 +87,7 @@ class LSTM_model():
         self.feature_vector_array = self.feature_vector_array[1:]
 
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
+        self.nn = load_model(self.model_file)
         ftr_vector = message_value['ftr_vector']
         ftr_vector = np.array(ftr_vector)
         print("ftr_vector:" + str(ftr_vector))
@@ -100,8 +102,10 @@ class LSTM_model():
         predicted_results = [predicted_demand[i]*(maxX-minX)+minX for i in range(0, len(predicted_demand))]
         output_dictionary = {"timestamp": message_value['timestamp'],
         "value": predicted_results,
-        "horizon": self.horizon,
+        #"horizon": self.horizon,
         "prediction_time": time.time()}
+        for i in range(0, len(predicted_demand)):
+            plt.plot(np.concatenate([ftr_vector, predicted_demand[i]]))
 
         for output in self.outputs:
             output.send_out(timestamp=timestamp,

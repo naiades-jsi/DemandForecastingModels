@@ -1,0 +1,21 @@
+{
+    "bootstrap_servers": ["localhost:9092"],
+    "auto_offset_reset": "latest",
+    "enable_auto_commit": "True",
+    "group_id": "my-group",
+    "value_deserializer": "lambda x: loads(x.decode('utf-8'))",
+    "topics":[
+        "input_topic"
+    ],
+    "model_alg": ["LSTM_model()"],
+    "model_conf":[
+        {
+            "model_name": "alicante_autobuses",
+            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepo/LoadedModels/AutobusModel.h5",
+            "output": ["KafkaOutput()"],
+            "output_conf": [{
+                "output_topic": "meaurements_node_alicante_autobuses_flow"
+            }]
+        }
+    ]
+}
