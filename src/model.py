@@ -45,8 +45,12 @@ class LSTM_model():
         #self.horizon = conf["horizon"]
         self.model_name = conf["model_name"]
 
+        #timesteps in the futurte to predict
+        self.predicted_timesteps = conf["predicted_timesteps"]
+
         if ("model_file" in conf):
             self.model_file = conf["model_file"]
+            self.load_model(self.model_file)
 
         # OUTPUT/VISUALIZATION INITIALIZATION & CONFIGURATION
         self.outputs = [eval(o) for o in conf["output"]]
@@ -54,8 +58,14 @@ class LSTM_model():
         for o in range(len(self.outputs)):
             self.outputs[o].configure(output_configurations[o])
 
-        # Build and train the model
-        #self.build_train_model(model_structure=self.model_structure)
+        # TODO: add training data location to the configuration
+        self.min_max_of_data(self.file_location)
+
+    def min_max_of_data(self, file_location):
+        # TODO save min and max
+        
+        pass
+
     def load_model(self, filename):
         load_model(filename)
 
@@ -86,20 +96,39 @@ class LSTM_model():
 
         self.feature_vector_array = self.feature_vector_array[1:]
 
+    def feature_vector_normaliztion(self, ftr_vectro):
+        pass
+
+    def reverse_normalization(self, predictions):
+        pass
+
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
-        self.nn = load_model(self.model_file)
         ftr_vector = message_value['ftr_vector']
-        ftr_vector = np.array(ftr_vector)
-        print("ftr_vector:" + str(ftr_vector))
-        minX = ftr_vector.min()
-        maxX = ftr_vector.max()
-        ftr_vector-=minX
-        scaled_ftr_vector = ftr_vector/(maxX-minX)
-        print("scaled_ftr_vector" + str(scaled_ftr_vector))
         timestamp = message_value["timestamp"]
-        predicted_demand = np.array([float(k) for k in self.nn.predict(np.atleast_2d(scaled_ftr_vector))])
-        predicted_results = []
-        predicted_results = [predicted_demand[i]*(maxX-minX)+minX for i in range(0, len(predicted_demand))]
+        ftr_vector = np.array(ftr_vector)
+        # [1, 2, 3, 4, 1, 2, ..., 4]
+        # prediction = 2
+        # [2, 1, 2..]
+        #print("ftr_vector:" + str(ftr_vector))
+       # minX = ftr_vector.min()
+       # maxX = ftr_vector.max()
+        predictions = []
+        scaled_ftr_vector = self.feature_vector_normaliztion(ftr_vector)
+        for i in range(self.predicted_timesteps):
+            predicted_demand = np.array([float(k) for k in self.nn.predict(np.atleast_2d(scaled_ftr_vector))])
+            predictions.append(predicted_demand)
+            scaled_ftr_vector.insert(0, predicted_demand)
+            scaled_ftr_vector = scaled_ftr_vector[:-1]
+            #scaled_ftr_vector-=minX
+            #scaled_ftr_vector = ftr_vector/(maxX-minX)
+        #print("scaled_ftr_vector" + str(scaled_ftr_vector))
+        
+        predicted_results = self.reverse_normalization(predictions)
+        #predicted_results = [predicted_demand[i]*(maxX-minX)+minX for i in range(0, len(predicted_demand))]
+
+        #{"1h": 0,
+        # "2h": 1}
+        
         output_dictionary = {"timestamp": message_value['timestamp'],
         "value": predicted_results,
         #"horizon": self.horizon,
