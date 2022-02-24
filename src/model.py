@@ -14,6 +14,10 @@ import numpy.ma as ma
 import time
 import matplotlib.pyplot as plt
 
+physical_devices = tf.config.list_physical_devices('GPU')
+tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
+print(physical_devices)
+
 class LSTM_model():
     training_data: str
     model_structure: Dict[str, Any]
@@ -50,7 +54,7 @@ class LSTM_model():
         self.model_name = conf["model_name"]
 
         # Data File to extract min, max
-        self.data = conf['data']
+        self.data = conf["data"]
         
         # timesteps in the futurte to predict
         self.predicted_timesteps = conf["predicted_timesteps"]
@@ -65,25 +69,14 @@ class LSTM_model():
         for o in range(len(self.outputs)):
             self.outputs[o].configure(output_configurations[o])
 
-        # TODO: add training data location to the configuration
-
     def min_max_of_data(self, file_location):
-        # TODO save min and max
         data = pd.read_csv(file_location)
-        values = np.array(data['Values'])
-        min = values.min()
-        max = values.max()
+        min = data['Values'].min()
+        max = data['Values'].max()
         return min, max
 
     def load_model(self, filename):
         load_model(filename)
-
-        # Load model
-        self.nn = self.load_model(self.model_file)
-
-    #def save_model(self, filename):
-    #    self.nn.save("LoadedModels/" + filename + "_LSTM")
-        #print("Saving GAN")
 
     def feature_vector_creation(self, message_value: Dict[Any, Any]) -> Any:
         print(message_value)
@@ -112,31 +105,25 @@ class LSTM_model():
 
     def reverse_normalization(self, predictions):
         [minX, maxX] = self.min_max_of_data(self.data)
-        reverse_predictions = predictions*(maxX-minX)+minX
+        reverse_predictions = np.array(predictions)*(maxX-minX)+minX
         return reverse_predictions
 
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
+        model = load_model(self.model_file)
         ftr_vector = message_value['ftr_vector']
         timestamp = message_value["timestamp"]
         ftr_vector = np.array(ftr_vector)
-        print(ftr_vector)
         predictions = []
         scaled_ftr_vector = self.feature_vector_normalization(ftr_vector)
-        print(scaled_ftr_vector)
+        print(scaled_ftr_vector.shape)
         for i in range(self.predicted_timesteps):
-            predicted_demand = np.array([float(k) for k in self.nn.predict(np.atleast_2d(scaled_ftr_vector))])
+            predicted_demand = np.array([float(k) for k in model.predict(np.atleast_2d(scaled_ftr_vector))])
             predictions.append(predicted_demand)
-            scaled_ftr_vector.insert(0, predicted_demand)
+            scaled_ftr_vector = np.hstack((0, predicted_demand))
             scaled_ftr_vector = scaled_ftr_vector[:-1]
-            #scaled_ftr_vector-=minX
-            #scaled_ftr_vector = ftr_vector/(maxX-minX)
-        #print("scaled_ftr_vector" + str(scaled_ftr_vector))
         
         predicted_results = self.reverse_normalization(predictions)
         #predicted_results = [predicted_demand[i]*(maxX-minX)+minX for i in range(0, len(predicted_demand))]
-
-        #{"1h": 0,
-        # "2h": 1}
         
         output_dictionary = {"timestamp": message_value['timestamp'],
         "value": predicted_results,
