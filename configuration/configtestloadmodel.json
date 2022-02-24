@@ -10,6 +10,8 @@
     "model_alg": ["LSTM_model()"],
     "model_conf":[
         {
+            "predicted_timesteps":24,
+            "data": "./data_autobus.csv",
             "model_name": "alicante_autobuses",
             "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepo/LoadedModels/AutobusModel.h5",
             "output": ["KafkaOutput()"],
