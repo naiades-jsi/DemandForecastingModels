@@ -111,7 +111,7 @@ class LSTM_model():
         return scaled_ftr_vector
 
     def reverse_normalization(self, predictions):
-        minX, maxX = self.min_max_of_data(self.data)
+        [minX, maxX] = self.min_max_of_data(self.data)
         reverse_predictions = predictions*(maxX-minX)+minX
         return reverse_predictions
 
