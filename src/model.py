@@ -106,7 +106,7 @@ class LSTM_model():
         self.feature_vector_array = self.feature_vector_array[1:]
 
     def feature_vector_normalization(self, ftr_vector):
-        minX, maxX = self.min_max_of_data(self.data)
+        [minX, maxX] = self.min_max_of_data(self.data)
         scaled_ftr_vector = (ftr_vector-minX)/(maxX-minX)
         return scaled_ftr_vector
 
