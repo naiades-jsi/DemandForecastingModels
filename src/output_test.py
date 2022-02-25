@@ -1,19 +1,19 @@
-import csv
-import json
 from time import sleep
 from json import dumps
 from kafka import KafkaProducer
 import numpy as np
 from datetime import datetime
-import random
+import pandas as pd
 
 producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
                          value_serializer=lambda x: 
                          dumps(x).encode('utf-8'))
 
+df = pd.read_csv('C:/Users/Utilizador/Desktop/Institute/GitRepo/data.csv')
+
 tab_data = []
 for i in range(0,50):
-    n = 20*np.random.rand(1,24)
+    n = np.max(df['Values'])*np.random.rand(1,24)
     n = n.tolist()
     tab_data.append(n)
     print(tab_data)

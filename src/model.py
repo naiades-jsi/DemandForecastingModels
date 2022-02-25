@@ -115,7 +115,8 @@ class LSTM_model():
         ftr_vector = np.array(ftr_vector)
         predictions = []
         scaled_ftr_vector = self.feature_vector_normalization(ftr_vector)
-        print(scaled_ftr_vector.shape)
+        print(scaled_ftr_vector.T.shape)
+        scaled_ftr_vector = scaled_ftr_vector.T
         for i in range(self.predicted_timesteps):
             predicted_demand = np.array([float(k) for k in model.predict(np.atleast_2d(scaled_ftr_vector))])
             predictions.append(predicted_demand)
