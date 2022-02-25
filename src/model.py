@@ -89,10 +89,12 @@ class LSTM_model():
             print("not enough values")
             return
 
+        #print("\n")
         dict_to_insert = {
             "ftr_vector": self.feature_vector_array,
             "timestamp": timestamp
         }
+
 
         self.message_insert(message_value=dict_to_insert)
 
@@ -105,7 +107,7 @@ class LSTM_model():
 
     def reverse_normalization(self, predictions):
         [minX, maxX] = self.min_max_of_data(self.data)
-        reverse_predictions = np.array(predictions)*(maxX-minX)+minX
+        reverse_predictions = np.array(predictions, dtype="object")*(maxX-minX)+minX
         return reverse_predictions
 
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
@@ -113,26 +115,29 @@ class LSTM_model():
         ftr_vector = message_value['ftr_vector']
         timestamp = message_value["timestamp"]
         ftr_vector = np.array(ftr_vector)
+        ftr_vector = ftr_vector[0,:]
         predictions = []
         scaled_ftr_vector = self.feature_vector_normalization(ftr_vector)
-        print(scaled_ftr_vector.T.shape)
-        scaled_ftr_vector = scaled_ftr_vector.T
         for i in range(self.predicted_timesteps):
             predicted_demand = np.array([float(k) for k in model.predict(np.atleast_2d(scaled_ftr_vector))])
             predictions.append(predicted_demand)
-            scaled_ftr_vector = np.hstack((0, predicted_demand))
-            scaled_ftr_vector = scaled_ftr_vector[:-1]
+            scaled_ftr_vector = np.hstack((predictions[i], scaled_ftr_vector[:-1]))
         
-        predicted_results = self.reverse_normalization(predictions)
-        #predicted_results = [predicted_demand[i]*(maxX-minX)+minX for i in range(0, len(predicted_demand))]
+        predicted_results = self.reverse_normalization(predictions).tolist()
         
         output_dictionary = {"timestamp": message_value['timestamp'],
         "value": predicted_results,
         #"horizon": self.horizon,
         "prediction_time": time.time()}
 
+        #print("\n")
+
+        
+
         for output in self.outputs:
             output.send_out(timestamp=timestamp,
                             value=output_dictionary,
                             suggested_value = None, 
                             algorithm= 'LSTM model')
+
+        print("\n")

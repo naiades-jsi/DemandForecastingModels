@@ -3,7 +3,6 @@
 *.jpg
 *-checkpoint.ipynb
 *.ipynb
-*.csv
 AliPark
 AutoBus
 Benalua
