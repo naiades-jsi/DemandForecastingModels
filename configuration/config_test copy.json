@@ -26,9 +26,11 @@
             },
             "output": [
                 {"topic": "1h",
-                "mask": 0},
-                {"topic": "2h",
-                    "mask": 1}
+                    "horizon": "1h",
+                    "mask": 0},
+                {"topic": "1d",
+                    "horizon": "1d",
+                    "mask": 47}
             ]
         }
     ]

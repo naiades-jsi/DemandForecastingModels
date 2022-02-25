@@ -64,9 +64,11 @@ class LSTM_model():
             self.load_model(self.model_file)
 
         # OUTPUT CONFIGURATION
-        outputs = [eval(o) for o in conf["output"]]
-        for o in range(len(self.outputs)):
-            self.outputs[o].configure(output_configurations[o])
+        output_configs = [eval(o) for o in conf["output"]]
+        outputs = []
+        for o in output_configs:
+            output = KafkaOutput().configure(conf={"output_topic": o["topic"]})
+            self.outputs.append([o["mask"], output, o["horizon"]])
 
     def min_max_of_data(self, file_location):
         data = pd.read_csv(file_location)
@@ -123,20 +125,20 @@ class LSTM_model():
             scaled_ftr_vector = np.hstack((predictions[i], scaled_ftr_vector[:-1]))
         
         predicted_results = self.reverse_normalization(predictions).tolist()
-        
-        output_dictionary = {"timestamp": message_value['timestamp'],
-        "value": predicted_results,
-        #"horizon": self.horizon,
-        "prediction_time": time.time()}
+        prediction_time = time.time()
 
-        #print("\n")
+        # Output
+        for output_tuple in self.outputs:
+            # Get the mask and select the correct prediction
+            mask = output_tuple[0]
+            output_dictionary = {"timestamp": timestamp,
+                "value": predictions[mask],
+                "horizon": output_tuple[2],
+                "prediction_time": prediction_time}
 
-        
-
-        for output in self.outputs:
+            # Get the output object and send the message out
+            output = output_tuple[1]
             output.send_out(timestamp=timestamp,
                             value=output_dictionary,
                             suggested_value = None, 
                             algorithm= 'LSTM model')
-
-        print("\n")
