@@ -52,9 +52,8 @@ class LSTM_model():
             self.model_file = conf["model_file"]
             self.load_model(self.model_file)
 
-        # OUTPUT/VISUALIZATION INITIALIZATION & CONFIGURATION
-        self.outputs = [eval(o) for o in conf["output"]]
-        output_configurations = conf["output_conf"]
+        # OUTPUT CONFIGURATION
+        outputs = [eval(o) for o in conf["output"]]
         for o in range(len(self.outputs)):
             self.outputs[o].configure(output_configurations[o])
 
