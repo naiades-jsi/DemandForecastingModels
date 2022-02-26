@@ -2248,3 +2248,4 @@ kafka.errors.CommitFailedError: CommitFailedError: Commit cannot be completed si
             
 25-Feb-22 17:22:37 - Marking the coordinator dead (node coordinator-0) for group my-group: Node Disconnected.
 25-Feb-22 17:22:37 - Marking the coordinator dead (node coordinator-0) for group my-group: Node Disconnected.
+25-Feb-22 17:31:49 - No partition metadata for topic input_topic

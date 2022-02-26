@@ -124,20 +124,22 @@ class LSTM_model():
             scaled_ftr_vector = np.hstack((predictions[i], scaled_ftr_vector[:-1]))
         
         predicted_results = self.reverse_normalization(predictions).tolist()
-        prediction_time = time.time()
+        
+        output_dictionary = {"timestamp": message_value['timestamp'],
+        "value": predicted_results,
+        #"horizon": self.horizon,
+        "prediction_time": time.time()}
 
-        # Output
-        for output_tuple in self.outputs:
-            # Get the mask and select the correct prediction
-            mask = output_tuple[0]
-            output_dictionary = {"timestamp": timestamp,
-                "value": predictions[mask],
-                "horizon": output_tuple[2],
-                "prediction_time": prediction_time}
+        #print("\n")
 
-            # Get the output object and send the message out
-            output = output_tuple[1]
+        
+
+        for output in self.outputs:
             output.send_out(timestamp=timestamp,
                             value=output_dictionary,
                             suggested_value = None, 
                             algorithm= 'LSTM model')
+        
+        
+
+        print("\n")
