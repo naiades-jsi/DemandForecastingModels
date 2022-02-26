@@ -64,9 +64,8 @@ class LSTM_model():
             self.load_model(self.model_file)
 
         # OUTPUT CONFIGURATION
-        output_configs = [eval(o) for o in conf["output"]]
         outputs = []
-        for o in output_configs:
+        for o in conf["output"]:
             output = KafkaOutput().configure(conf={"output_topic": o["topic"]})
             self.outputs.append([o["mask"], output, o["horizon"]])
 
