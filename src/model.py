@@ -14,6 +14,7 @@ import numpy.ma as ma
 import time
 import matplotlib.pyplot as plt
 
+
 physical_devices = tf.config.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
 print(physical_devices)
@@ -64,10 +65,10 @@ class LSTM_model():
             self.load_model(self.model_file)
 
         # OUTPUT CONFIGURATION
-        outputs = []
-        for o in conf["output"]:
-            output = KafkaOutput().configure(conf={"output_topic": o["topic"]})
-            self.outputs.append([o["mask"], output, o["horizon"]])
+        #self.outputs = []
+        #for o in conf["output"]:
+        #    output = KafkaOutput().configure(conf={"output_topic": o["topic"]})
+        #    self.outputs.append([o["mask"], output, o["horizon"]])
 
     def min_max_of_data(self, file_location):
         data = pd.read_csv(file_location)
@@ -113,7 +114,7 @@ class LSTM_model():
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
         model = load_model(self.model_file)
         ftr_vector = message_value['ftr_vector']
-        timestamp = message_value["timestamp"]
+        # timestamp = message_value["timestamp"]
         ftr_vector = np.array(ftr_vector)
         ftr_vector = ftr_vector[0,:]
         predictions = []
@@ -124,21 +125,22 @@ class LSTM_model():
             scaled_ftr_vector = np.hstack((predictions[i], scaled_ftr_vector[:-1]))
         
         predicted_results = self.reverse_normalization(predictions).tolist()
+        print(predicted_results)
         
-        output_dictionary = {"timestamp": message_value['timestamp'],
-        "value": predicted_results,
+        #output_dictionary = {"timestamp": message_value['timestamp'],
+        #"value": predicted_results,
         #"horizon": self.horizon,
-        "prediction_time": time.time()}
+        #"prediction_time": time.time()}
 
         #print("\n")
 
         
 
-        for output in self.outputs:
-            output.send_out(timestamp=timestamp,
-                            value=output_dictionary,
-                            suggested_value = None, 
-                            algorithm= 'LSTM model')
+        #for output in self.outputs:
+        #    output.send_out(timestamp=timestamp,
+        #                    value=output_dictionary,
+        #                    suggested_value = None, 
+        #                    algorithm= 'LSTM model')
         
         
 
