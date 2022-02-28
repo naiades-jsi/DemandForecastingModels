@@ -10,8 +10,8 @@
     "model_alg": ["LSTM_model()"],
     "model_conf":[
         {
-            "n_days":1,
-            "predicted_timesteps":24,
+            "n_days":7,
+            "predicted_timesteps":48,
             "data":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/data.csv",
             "model_name": "alicante_autobuses",
             "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/AutobusModel.h5",

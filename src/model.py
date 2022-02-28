@@ -59,6 +59,9 @@ class LSTM_model():
         
         # timesteps in the futurte to predict
         self.predicted_timesteps = conf["predicted_timesteps"]
+    
+        # number of days to predict
+        self.n_days = conf["n_days"]
 
         if ("model_file" in conf):
             self.model_file = conf["model_file"]
@@ -119,7 +122,7 @@ class LSTM_model():
         ftr_vector = ftr_vector[0,:]
         predictions = []
         scaled_ftr_vector = self.feature_vector_normalization(ftr_vector)
-        for i in range(self.predicted_timesteps):
+        for i in range(self.n_days*self.predicted_timesteps):
             predicted_demand = np.array([float(k) for k in model.predict(np.atleast_2d(scaled_ftr_vector))])
             predictions.append(predicted_demand)
             scaled_ftr_vector = np.hstack((predictions[i], scaled_ftr_vector[:-1]))
