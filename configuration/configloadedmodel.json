@@ -23,63 +23,77 @@
         "LSTM_model()"],
     "model_conf":[
         {
-            "data_file": "",
+            "n_days":7,
+            "predicted_timesteps":48,
+            "data": "./data_alipark.csv",
             "model_name": "alicante_alipark",
-            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepo/LoadedModels/AliParkModel.h5",
+            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/AliParkModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_alipark_flow"
             }]
         },
         {
-            "data_file": "",
+            "n_days":7,
+            "predicted_timesteps":48,
+            "data": "./data_autobus.csv",
             "model_name": "alicante_autobuses",
-            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepo/LoadedModels/AutobusModel.h5",
+            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/AutobusModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_autobuses_flow"
             }]
         },
         {
-            "data_file": "",
+            "n_days":7,
+            "predicted_timesteps":48,
+            "data": "./data_benalua.csv",
             "model_name": "alicante_benalua",
-            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepo/LoadedModels/BenaluaModel.h5",
+            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/BenaluaModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_benalua_flow"
             }]
         },
         {
-            "data_file": "",
+            "n_days":7,
+            "predicted_timesteps":48,
+            "data": "./data_diputacion.csv",
             "model_name": "alicante_diputacion",
-            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepo/LoadedModels/DiputacionModel.h5",
+            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/DiputacionModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_diputacion_flow"
             }]
         },
         {
-            "data_file": "",
+            "n_days":7,
+            "predicted_timesteps":48,
+            "data": "./data_mercado.csv",
             "model_name": "alicante_mercado",
-            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepo/LoadedModels/MercAlicModel.h5",
+            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/MercAlicModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_mercado_flow"
             }]
         },
         {
-            "data_file": "",
+            "n_days":7,
+            "predicted_timesteps":48,
+            "data": "./data_pzamont.csv",
             "model_name": "alicante_montaneta",
-            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepo/LoadedModels/PlazaMontModel.h5",
+            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/PlazaMontModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_montaneta_flow"
             }]
         },
         {
-            "data_file": "",
+            "n_days":7,
+            "predicted_timesteps":48,
+            "data": "./data_rambla.csv",
             "model_name": "alicante_rambla",
-            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepo/LoadedModels/RamblaModel.h5",
+            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/RamblaModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_rambla_flow"

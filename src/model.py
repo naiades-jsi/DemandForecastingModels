@@ -14,6 +14,7 @@ import numpy.ma as ma
 import time
 import matplotlib.pyplot as plt
 
+
 physical_devices = tf.config.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
 print(physical_devices)
@@ -58,16 +59,19 @@ class LSTM_model():
         
         # timesteps in the futurte to predict
         self.predicted_timesteps = conf["predicted_timesteps"]
+    
+        # number of days to predict
+        self.n_days = conf["n_days"]
 
         if ("model_file" in conf):
             self.model_file = conf["model_file"]
             self.load_model(self.model_file)
 
         # OUTPUT CONFIGURATION
-        outputs = []
-        for o in conf["output"]:
-            output = KafkaOutput().configure(conf={"output_topic": o["topic"]})
-            self.outputs.append([o["mask"], output, o["horizon"]])
+        #self.outputs = []
+        #for o in conf["output"]:
+        #    output = KafkaOutput().configure(conf={"output_topic": o["topic"]})
+        #    self.outputs.append([o["mask"], output, o["horizon"]])
 
     def min_max_of_data(self, file_location):
         data = pd.read_csv(file_location)
@@ -113,12 +117,12 @@ class LSTM_model():
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
         model = load_model(self.model_file)
         ftr_vector = message_value['ftr_vector']
-        timestamp = message_value["timestamp"]
+        # timestamp = message_value["timestamp"]
         ftr_vector = np.array(ftr_vector)
         ftr_vector = ftr_vector[0,:]
         predictions = []
         scaled_ftr_vector = self.feature_vector_normalization(ftr_vector)
-        for i in range(self.predicted_timesteps):
+        for i in range(self.n_days*self.predicted_timesteps):
             predicted_demand = np.array([float(k) for k in model.predict(np.atleast_2d(scaled_ftr_vector))])
             predictions.append(predicted_demand)
             scaled_ftr_vector = np.hstack((predictions[i], scaled_ftr_vector[:-1]))
