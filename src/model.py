@@ -123,23 +123,18 @@ class LSTM_model():
             predictions.append(predicted_demand)
             scaled_ftr_vector = np.hstack((predictions[i], scaled_ftr_vector[:-1]))
         
-        predicted_results = self.reverse_normalization(predictions).tolist()
-        
-        output_dictionary = {"timestamp": message_value['timestamp'],
-        "value": predicted_results,
-        #"horizon": self.horizon,
-        "prediction_time": time.time()}
-
-        #print("\n")
-
-        
+        predicted_results = self.reverse_normalization(predictions).tolist()        
 
         for output in self.outputs:
-            output.send_out(timestamp=timestamp,
+            # Create output dictionary
+            output_dictionary = {
+                "timestamp": message_value['timestamp'],
+                "value": predicted_results[output[0]],
+                "horizon": output[2],
+                "prediction_time": time.time()}
+            
+            # Send out
+            output[1].send_out(timestamp=timestamp,
                             value=output_dictionary,
                             suggested_value = None, 
                             algorithm= 'LSTM model')
-        
-        
-
-        print("\n")
