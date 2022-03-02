@@ -9,7 +9,7 @@ producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
                          value_serializer=lambda x: 
                          dumps(x).encode('utf-8'))
 
-df = pd.read_csv('C:/Users/Utilizador/Desktop/Institute/GitRepo/data.csv')
+df = pd.read_csv('C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/data/DataForModels/data_autobus.csv')
 
 tab_data = []
 for i in range(0,50):

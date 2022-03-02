@@ -67,12 +67,6 @@ class LSTM_model():
             self.model_file = conf["model_file"]
             self.load_model(self.model_file)
 
-        # OUTPUT CONFIGURATION
-        #self.outputs = []
-        #for o in conf["output"]:
-        #    output = KafkaOutput().configure(conf={"output_topic": o["topic"]})
-        #    self.outputs.append([o["mask"], output, o["horizon"]])
-
     def min_max_of_data(self, file_location):
         data = pd.read_csv(file_location)
         min = data['Values'].min()
@@ -117,7 +111,7 @@ class LSTM_model():
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
         model = load_model(self.model_file)
         ftr_vector = message_value['ftr_vector']
-        # timestamp = message_value["timestamp"]
+        timestamp = message_value["timestamp"]
         ftr_vector = np.array(ftr_vector)
         ftr_vector = ftr_vector[0,:]
         predictions = []
@@ -128,6 +122,11 @@ class LSTM_model():
             scaled_ftr_vector = np.hstack((predictions[i], scaled_ftr_vector[:-1]))
         
         predicted_results = self.reverse_normalization(predictions).tolist()        
+        print(predicted_results)
+        
+        
+        # OUTPUT CONFIGURATION
+        self.outputs = []
 
         for output in self.outputs:
             # Create output dictionary

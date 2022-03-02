@@ -12,7 +12,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "data":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/data.csv",
+            "data":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/data/DataForModels/data_autobus.csv",
             "model_name": "alicante_autobuses",
             "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/AutobusModel.h5",
             "output": [
