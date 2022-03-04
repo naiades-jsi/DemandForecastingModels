@@ -13,7 +13,7 @@ from time import sleep
 import numpy as np
 import pandas as pd
 import datetime
-from src.model import LSTM_model
+from model import LSTM_model
 
 
 class ConsumerAbstract(ABC):

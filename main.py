@@ -7,7 +7,7 @@ import time
 import logging
 
 from src.consumer import ConsumerKafka, ConsumerFile, ConsumerFileKafka
-from src.model import LSTM_model
+from model import LSTM_model
 
 from multiprocessing import Process
 from datetime import datetime

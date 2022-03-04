@@ -110,22 +110,19 @@ class LSTM_model():
 
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
         model = load_model(self.model_file)
-        #timesteps = 24
-        #n_future = self.n_days*self.predicted_timesteps
-        #data = pd.read_csv(self.data)
-        #values = data['Values']
-        #test_component = values[int(0.8*len(values))+1:]
-        #ftr_vector = np.array([test_component[t:t+timesteps] for t in range(0, len(test_component)-timesteps)])
         ftr_vector = message_value['ftr_vector']
         timestamp = message_value["timestamp"]
-        #predictions = []
-        scaled_ftr_vector = self.feature_vector_normalization(ftr_vector[-n_future:])
-        scaled_forecast = model.predict(scaled_ftr_vector)
-
-        # To inverse scale it
-        predictions = self.reverse_normalization(scaled_forecast)
-        # where X_train.shape() is (n_future, timesteps, 1)
-        print(predictions)
+        ftr_vector = np.array(ftr_vector)
+        ftr_vector = ftr_vector[0,:]
+        predictions = []
+        scaled_ftr_vector = self.feature_vector_normalization(ftr_vector)
+        for i in range(self.n_days*self.predicted_timesteps):
+            predicted_demand = np.array([float(k) for k in model.predict(np.atleast_2d(scaled_ftr_vector))])
+            predictions.append(predicted_demand)
+            scaled_ftr_vector = np.hstack((predictions[i], scaled_ftr_vector[:-1]))
+        
+        predicted_results = self.reverse_normalization(predictions).tolist()        
+        print(predicted_results)
         
         
         # OUTPUT CONFIGURATION
@@ -135,7 +132,7 @@ class LSTM_model():
             # Create output dictionary
             output_dictionary = {
                 "timestamp": message_value['timestamp'],
-                "value": predictions[output[0]],
+                "value": predicted_results[output[0]],
                 "horizon": output[2],
                 "prediction_time": time.time()}
             
@@ -144,4 +141,3 @@ class LSTM_model():
                             value=output_dictionary,
                             suggested_value = None, 
                             algorithm= 'LSTM model')
-
