@@ -28,6 +28,7 @@ class LSTM_model():
         if(conf is not None):
             self.configure(conf)
         self.feature_vector_array = []
+        self.scaled_feature_vector_array = []
 
     def configure(self, conf: Dict[Any, Any] = None,
                   configuration_location: str = None,
@@ -78,17 +79,20 @@ class LSTM_model():
 
     def feature_vector_creation(self, message_value: Dict[Any, Any]) -> Any:
         print(message_value)
+        scaled_value = message_value["scaled_ftr_vector"]
         value = message_value["ftr_vector"]
         timestamp = message_value["timestamp"]
 
+        self.scaled_feature_vector_array.append(scaled_value)
         self.feature_vector_array.append(value)
 
-        if(len(self.feature_vector_array[-1]) != 24):
-            print("not enough values")
-            return
+        #if(len(self.feature_vector_array[-1]) != 24):
+        #    print("not enough values")
+        #    return
 
         #print("\n")
         dict_to_insert = {
+            "scaled_ftr_vector": self.scaled_feature_vector_array,
             "ftr_vector": self.feature_vector_array,
             "timestamp": timestamp
         }
@@ -96,6 +100,7 @@ class LSTM_model():
 
         self.message_insert(message_value=dict_to_insert)
 
+        self.scaled_feature_vector_array = self.scaled_feature_vector_array[1:]
         self.feature_vector_array = self.feature_vector_array[1:]
 
     def feature_vector_normalization(self, ftr_vector):
@@ -111,21 +116,24 @@ class LSTM_model():
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
         model = load_model(self.model_file)
         #timesteps = 24
-        n_future = self.n_days*self.predicted_timesteps
         #data = pd.read_csv(self.data)
         #values = data['Values']
         #test_component = values[int(0.8*len(values))+1:]
         #ftr_vector = np.array([test_component[t:t+timesteps] for t in range(0, len(test_component)-timesteps)])
-        ftr_vector = message_value['ftr_vector']
+        ftr_vector = np.array(message_value['ftr_vector'])
+        scaled_ftr_vector = np.array(message_value['scaled_ftr_vector'])
+        print(scaled_ftr_vector.shape)
         timestamp = message_value["timestamp"]
-        #predictions = []
         n_future = self.n_days*self.predicted_timesteps
-        scaled_ftr_vector = self.feature_vector_normalization(ftr_vector[-n_future:])
-        scaled_forecast = model.predict(scaled_ftr_vector)
+        scaled_forecast = model.predict(scaled_ftr_vector.reshape(scaled_ftr_vector.shape[1], scaled_ftr_vector.shape[2], scaled_ftr_vector.shape[0]))
 
         # To inverse scale it
         predictions = self.reverse_normalization(scaled_forecast)
         # where X_train.shape() is (n_future, timesteps, 1)
+        plt.plot(ftr_vector[0,0,:][-n_future:])
+        plt.show()
+        plt.plot(predictions[:,0])
+        plt.show()
         print(predictions)
         
         

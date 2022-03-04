@@ -9,33 +9,24 @@ producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
                          value_serializer=lambda x: 
                          dumps(x).encode('utf-8'))
 
-df = pd.read_csv('C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/data/DataForModels/data_autobus.csv')
 
-tab_data = []
-for i in range(0,50):
-    n = np.max(df['Values'])*np.random.rand(1,24)
-    n = n.tolist()
-    tab_data.append(n)
-    print(tab_data)
-tab_data_csv = []
+def feature_vector_normalization(ftr_vector):
+    scaled_ftr_vector = (ftr_vector-np.min(ftr_vector))/(np.max(ftr_vector)-np.min(ftr_vector))
+    return scaled_ftr_vector
 
-for e in range(24):
-    print(str(e))
-    timestamp = e
-    ran = float(np.random.normal(0, 0.01))
-    print(tab_data[e][0])
-    
-    if(e%10 == 0):
-        ran += 0.4
-    data = {"ftr_vector" : tab_data[e][0],
-			"timestamp": str(datetime.now())}
+data = pd.read_csv('C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/data/DataForModels/data_autobus.csv')
+Values = data['Values']
+values = Values[int(0.8*len(Values))+1:]
+test_component = feature_vector_normalization(values)
+timesteps = 24
+n_future = 7*48
+ftr_vector = np.array([values[t:t+timesteps] for t in range(0, len(values)-timesteps)]).tolist()
+scaled_ftr_vector = np.array([test_component[t:t+timesteps] for t in range(0, len(test_component)-timesteps)]).tolist()
+data = {"ftr_vector" : ftr_vector[-n_future:],
+        "scaled_ftr_vector" : scaled_ftr_vector[-n_future:],
+        "timestamp": str(datetime.now())}
+print(data)
+print(np.shape(scaled_ftr_vector))
 
-    data_csv = {"test_value" : 3 + ran,
-                "second": e,
-			    "timestamp": str(datetime.now())}
-    tab_data_csv.append(data_csv)
-
-    print(data)
-
-    producer.send('input_topic', value=data)
-    sleep(1)
+producer.send('input_topic', value=data)
+sleep(1)
