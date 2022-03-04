@@ -111,7 +111,7 @@ class LSTM_model():
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
         model = load_model(self.model_file)
         #timesteps = 24
-        #n_future = self.n_days*self.predicted_timesteps
+        n_future = self.n_days*self.predicted_timesteps
         #data = pd.read_csv(self.data)
         #values = data['Values']
         #test_component = values[int(0.8*len(values))+1:]
@@ -119,6 +119,7 @@ class LSTM_model():
         ftr_vector = message_value['ftr_vector']
         timestamp = message_value["timestamp"]
         #predictions = []
+        n_future = self.n_days*self.predicted_timesteps
         scaled_ftr_vector = self.feature_vector_normalization(ftr_vector[-n_future:])
         scaled_forecast = model.predict(scaled_ftr_vector)
 
