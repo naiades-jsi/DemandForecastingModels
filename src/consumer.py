@@ -32,7 +32,7 @@ class ConsumerAbstract(ABC):
         pass
 
     # rewrites prediction  configuration
-    def rewrite_configuration(self, prediction__conf: Dict[str, Any]
+    def rewrite_configuration(self, prediction_conf: Dict[str, Any]
                               ) -> None:
         with open(self.configuration_location) as c:
             conf = json.load(c)
@@ -57,7 +57,7 @@ class ConsumerKafka(ConsumerAbstract):
             self.configure(con=conf)
         elif(configuration_location is not None):
             # Read config file
-            with open("configuration/" + configuration_location) as data_file:
+            with open("./configuration/" + configuration_location) as data_file:
                 conf = json.load(data_file)
             self.configure(con=conf)
         else:

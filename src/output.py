@@ -42,7 +42,7 @@ class KafkaOutput(OutputAbstract):
         self.output_topic = conf['output_topic']
 
         self.producer = KafkaProducer(bootstrap_servers="localhost:9092",
-                         value_serializer=lambda x: dumps(x).encode('utf-8'))
+                         value_serializer=lambda x: json.dumps(x).encode('utf-8'))
         print("KafkaOutput configured", flush=True)
 
     def send_out(self, suggested_value: Any,status: str = "",
@@ -50,5 +50,6 @@ class KafkaOutput(OutputAbstract):
                 value: Any = None,
                  algorithm: str = "Unknown") -> None:
         print(self.output_topic, flush=True)
-        print(value, flush=True)
+        print(value)
+        print(type(value))
         self.producer.send(self.output_topic, value=value)

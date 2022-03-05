@@ -12,14 +12,14 @@ producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
                          dumps(x).encode('utf-8'))
 
 tab_data = []
-for i in range(0,50):
-    n = np.random.rand(1,24)
+for i in range(0,300):
+    n = np.random.rand(1,48)
     n = n.tolist()
     tab_data.append(n)
     print(tab_data)
 tab_data_csv = []
 
-for e in range(24):
+for e in range(300):
     print(str(e))
     timestamp = e
     ran = float(np.random.normal(0, 0.1))
@@ -38,4 +38,4 @@ for e in range(24):
     print(data)
 
     producer.send('input_topic', value=data)
-    sleep(1)
+    sleep(0.1)

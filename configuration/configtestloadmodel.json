@@ -12,17 +12,14 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "data":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/data/DataForModels/data_autobus.csv",
-            "model_name": "alicante_autobuses",
-            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/AutobusModel.h5",
-            "output": [
-                {"topic": "1h",
-                    "horizon": "1h",
-                    "mask": 0},
-                {"topic": "1d",
-                    "horizon": "1d",
-                    "mask": 47}
-            ]
+            "n_features": 1,
+            "data": "./data/DataForModels/data_alipark.csv",
+            "model_name": "alicante_alipark",
+            "model_file":"./LoadedModels/AliParkModel.h5",
+            "output": ["KafkaOutput()"],
+            "output_conf": [{
+                "output_topic": "predictions_alicante_alipark_flow"
+            }]
         }
     ]
 }
