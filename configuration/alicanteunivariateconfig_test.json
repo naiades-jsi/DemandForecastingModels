@@ -1,0 +1,25 @@
+{
+    "bootstrap_servers": ["localhost:9092"],
+    "auto_offset_reset": "latest",
+    "enable_auto_commit": "True",
+    "group_id": "my-group",
+    "value_deserializer": "lambda x: loads(x.decode('utf-8'))",
+    "topics":[
+        "topic"
+    ],
+    "model_alg": ["LSTM_model()"],
+    "model_conf":[
+        {
+            "n_days":7,
+            "predicted_timesteps":48,
+            "n_features": 1,
+            "data": "./data/DataForModels/Univariate/data_Autobus.csv",
+            "model_name": "alicante_alipark",
+            "model_file":"./LoadedModels/Univariate/AutobusModel.h5",
+            "output": ["KafkaOutput()"],
+            "output_conf": [{
+                "output_topic": "predictions_alicante_alipark_flow"
+            }]
+        }
+    ]
+}

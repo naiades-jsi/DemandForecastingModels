@@ -1,0 +1,25 @@
+{
+    "bootstrap_servers": ["localhost:9092"],
+    "auto_offset_reset": "latest",
+    "enable_auto_commit": "True",
+    "group_id": "my-group",
+    "value_deserializer": "lambda x: loads(x.decode('utf-8'))",
+    "topics":[
+        "prediction_alicante_multi"
+    ],
+    "model_alg": ["LSTM_model()"],
+    "model_conf":[
+        {
+            "n_days":7,
+            "predicted_timesteps":48,
+            "n_features": 1,
+            "data": "./data/DataForModels/Multivariate/data_Autobus.csv",
+            "model_name": "alicante_autobus_multi",
+            "model_file":"./LoadedModels/Multivariate/FinalMultiModelAutobus.h5",
+            "output": ["KafkaOutput()"],
+            "output_conf": [{
+                "output_topic": "predictions_alicante_Autobus_flow_w"
+            }]
+        }
+    ]
+}

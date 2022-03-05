@@ -25,9 +25,9 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "data": "./data_alipark.csv",
+            "data": "./data/DataForModels/Univariate/data_alipark.csv",
             "model_name": "alicante_alipark",
-            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/AliParkModel.h5",
+            "model_file":"./LoadedModels/Univariate/AliParkModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_alipark_flow"
@@ -36,9 +36,9 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "data": "./data_autobus.csv",
+            "data": "./data/DataForModels/Univariate/data_autobus.csv",
             "model_name": "alicante_autobuses",
-            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/AutobusModel.h5",
+            "model_file":"./LoadedModels/Univariate/AutobusModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_autobuses_flow"
@@ -47,9 +47,9 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "data": "./data_benalua.csv",
+            "data": "./data/DataForModels/Univariate/data_benalua.csv",
             "model_name": "alicante_benalua",
-            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/BenaluaModel.h5",
+            "model_file":"./LoadedModels/Univariate/BenaluaModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_benalua_flow"
@@ -58,9 +58,9 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "data": "./data_diputacion.csv",
+            "data": "./data/DataForModels/Univariate/data_diputacion.csv",
             "model_name": "alicante_diputacion",
-            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/DiputacionModel.h5",
+            "model_file":"./LoadedModels/Univariate/DiputacionModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_diputacion_flow"
@@ -69,9 +69,9 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "data": "./data_mercado.csv",
+            "data": "./data/DataForModels/Univariate/data_mercado.csv",
             "model_name": "alicante_mercado",
-            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/MercAlicModel.h5",
+            "model_file":"./LoadedModels/Univariate/MercAlicModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_mercado_flow"
@@ -80,9 +80,9 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "data": "./data_pzamont.csv",
+            "data": "./data/DataForModels/Univariate/data_pzamont.csv",
             "model_name": "alicante_montaneta",
-            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/PlazaMontModel.h5",
+            "model_file":"./LoadedModels/Univariate/PlazaMontModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_montaneta_flow"
@@ -91,9 +91,9 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "data": "./data_rambla.csv",
+            "data": "./data/DataForModels/Univariate/data_rambla.csv",
             "model_name": "alicante_rambla",
-            "model_file":"C:/Users/Utilizador/Desktop/Institute/GitRepoAlicante/LoadedModels/RamblaModel.h5",
+            "model_file":"./LoadedModels/Univariate/RamblaModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_rambla_flow"
