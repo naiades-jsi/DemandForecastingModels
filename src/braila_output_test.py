@@ -28,5 +28,6 @@ data = {"ftr_vector" : ftr_vector[-n_future:],
 print(data)
 print(np.shape(scaled_ftr_vector))
 
-producer.send('brailatopic', value=data)
+print(data)
+#producer.send('brailatopic', value=data)
 sleep(1)

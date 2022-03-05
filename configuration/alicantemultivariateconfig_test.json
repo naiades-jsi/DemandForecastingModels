@@ -12,7 +12,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "n_features": 1,
+            "n_features": 6,
             "data": "./data/DataForModels/Multivariate/data_Autobus.csv",
             "model_name": "alicante_autobus_multi",
             "model_file":"./LoadedModels/Multivariate/FinalMultiModelAutobus.h5",

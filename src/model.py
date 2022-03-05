@@ -86,15 +86,18 @@ class LSTM_model():
             #    return
 
             #print("\n")
+            
+            print(len(self.feature_vector_array))
+
+            if(len(self.scaled_feature_vector_array) > self.n_days*self.predicted_timesteps):
+                self.scaled_feature_vector_array = self.scaled_feature_vector_array[-self.n_days*self.predicted_timesteps:]
+                self.feature_vector_array = self.feature_vector_array[-self.n_days*self.predicted_timesteps:]
+
             dict_to_insert = {
                 "scaled_ftr_vector": self.scaled_feature_vector_array,
                 "ftr_vector": self.feature_vector_array,
                 "timestamp": timestamp
             }
-
-            if(len(self.scaled_feature_vector_array) > self.n_days*self.predicted_timesteps):
-                self.scaled_feature_vector_array = self.scaled_feature_vector_array[-self.n_days*self.predicted_timesteps:]
-                self.feature_vector_array = self.feature_vector_array[-self.n_days*self.predicted_timesteps:]
 
             self.message_insert(message_value=dict_to_insert)
 
@@ -117,13 +120,11 @@ class LSTM_model():
         #ftr_vector = np.array([test_component[t:t+timesteps] for t in range(0, len(test_component)-timesteps)])
         ftr_vector = np.array(message_value['ftr_vector'])
         scaled_ftr_vector = self.feature_vector_normalization(ftr_vector)
-        
+        print(scaled_ftr_vector.shape)
         timestamp = message_value["timestamp"]
         n_future = self.n_days*self.predicted_timesteps
 
         if(scaled_ftr_vector.shape[0] == n_future):
-
-
             scaled_forecast = self.model.predict(scaled_ftr_vector.reshape(scaled_ftr_vector.shape[0], self.predicted_timesteps, self.n_features))
 
             # To inverse scale it
@@ -143,7 +144,7 @@ class LSTM_model():
                 # Create output dictionary
                 output_dictionary = {
                     "timestamp": message_value['timestamp'],
-                    "value": str(list(predictions.flatten())),
+                    "value": list([float(x) for x in predictions.flatten()]),
                     "prediction_time": time.time()}
                 
                 # Send out
