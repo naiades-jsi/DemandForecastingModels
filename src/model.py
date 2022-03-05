@@ -75,7 +75,7 @@ class LSTM_model():
         value = message_value["ftr_vector"]
         timestamp = message_value["timestamp"]
 
-        if(len(scaled_value) != self.predicted_timesteps):
+        if(len(scaled_value) != self.predicted_timesteps*self.n_features):
             return
         else:
             self.scaled_feature_vector_array.append(scaled_value)
