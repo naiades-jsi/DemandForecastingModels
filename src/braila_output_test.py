@@ -29,5 +29,5 @@ print(data)
 print(np.shape(scaled_ftr_vector))
 
 print(data)
-#producer.send('brailatopic', value=data)
+producer.send('prediction_braila_uni', value=data)
 sleep(1)

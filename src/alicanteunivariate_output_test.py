@@ -28,5 +28,5 @@ data = {"ftr_vector" : ftr_vector[-n_future:],
 print(data)
 print(np.shape(scaled_ftr_vector[-n_future:]))
 
-producer.send('topic', value=data)
+producer.send('prediction_alicante_uni', value=data)
 sleep(1)

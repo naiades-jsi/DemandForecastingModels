@@ -6,12 +6,12 @@
     "value_deserializer": "lambda x: loads(x.decode('utf-8'))",
     "topics":[
         "features_alicante_alipark_forecasting_w",
-        "features_alicante_alipark_forecasting_w",
-        "features_alicante_alipark_forecasting_w",
-        "features_alicante_alipark_forecasting_w",
-        "features_alicante_alipark_forecasting_w",
-        "features_alicante_alipark_forecasting_w",
-        "features_alicante_alipark_forecasting_w"
+        "features_alicante_autobus_forecasting_w",
+        "features_alicante_benalua_forecasting_w",
+        "features_alicante_diputacion_forecasting_w",
+        "features_alicante_mercado_forecasting_w",
+        "features_alicante_pzamont_forecasting_w",
+        "features_alicante_rambla_forecasting_w"
     ],
     "bootstrap_servers": "localhost:9092",
     "model_alg": [
@@ -26,7 +26,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "n_features": 1,
+            "n_features": 6,
             "data": "./data/DataForModels/Multivariate/data_Alipark.csv",
             "model_name": "alicante_alipark_multi",
             "model_file":"./LoadedModels/Multivariate/FinalMultiModelAutobus.h5",
@@ -38,7 +38,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "n_features": 1,
+            "n_features": 6,
             "data": "./data/DataForModels/Multivariate/data_Autobus.csv",
             "model_name": "alicante_autobus_multi",
             "model_file":"./LoadedModels/Multivariate/FinalMultiModelAutobus.h5",
@@ -50,7 +50,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "n_features": 1,
+            "n_features": 6,
             "data": "./data/DataForModels/Multivariate/data_Benalua.csv",
             "model_name": "alicante_benalua_multi",
             "model_file":"./LoadedModels/Multivariate/FinalMultiModelBenalua.h5",
@@ -62,7 +62,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "n_features": 1,
+            "n_features": 6,
             "data": "./data/DataForModels/Multivariate/data_Diputacion.csv",
             "model_name": "alicante_diputacion_multi",
             "model_file":"./LoadedModels/Multivariate/FinalMultiModelDiputacion.h5",
@@ -74,7 +74,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "n_features": 1,
+            "n_features": 6,
             "data": "./data/DataForModels/Multivariate/data_Mercado.csv",
             "model_name": "alicante_mercado_multi",
             "model_file":"./LoadedModels/Multivariate/FinalMultiModelMercado.h5",
@@ -86,7 +86,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "n_features": 1,
+            "n_features": 6,
             "data": "./data/DataForModels/Multivariate/data_PzaMont.csv",
             "model_name": "alicante_pzamont_multi",
             "model_file":"./LoadedModels/Multivariate/FinalMultiModelMontaneta.h5",
@@ -98,7 +98,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
-            "n_features": 1,
+            "n_features": 6,
             "data": "./data/DataForModels/Multivariate/data_Rambla.csv",
             "model_name": "alicante_rambla_multi",
             "model_file":"./LoadedModels/Multivariate/FinalMultiModelRambla.h5",

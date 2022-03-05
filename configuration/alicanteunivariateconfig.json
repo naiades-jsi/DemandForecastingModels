@@ -6,7 +6,7 @@
     "value_deserializer": "lambda x: loads(x.decode('utf-8'))",
     "topics":[
         "features_alicante_alipark_flow_forecasting",
-        "features_alicante_autobusesflow_forecasting",
+        "features_alicante_autobuses_flow_forecasting",
         "features_alicante_benalua_flow_forecasting",
         "features_alicante_diputacion_flow_forecasting",
         "features_alicante_mercado_flow_forecasting",
@@ -25,6 +25,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
+            "n_features": 1,
             "data": "./data/DataForModels/Univariate/data_alipark.csv",
             "model_name": "alicante_alipark",
             "model_file":"./LoadedModels/Univariate/AliParkModel.h5",
@@ -36,6 +37,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
+            "n_features": 1,
             "data": "./data/DataForModels/Univariate/data_autobus.csv",
             "model_name": "alicante_autobuses",
             "model_file":"./LoadedModels/Univariate/AutobusModel.h5",
@@ -47,6 +49,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
+            "n_features": 1,
             "data": "./data/DataForModels/Univariate/data_benalua.csv",
             "model_name": "alicante_benalua",
             "model_file":"./LoadedModels/Univariate/BenaluaModel.h5",
@@ -58,6 +61,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
+            "n_features": 1,
             "data": "./data/DataForModels/Univariate/data_diputacion.csv",
             "model_name": "alicante_diputacion",
             "model_file":"./LoadedModels/Univariate/DiputacionModel.h5",
@@ -69,6 +73,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
+            "n_features": 1,
             "data": "./data/DataForModels/Univariate/data_mercado.csv",
             "model_name": "alicante_mercado",
             "model_file":"./LoadedModels/Univariate/MercAlicModel.h5",
@@ -80,6 +85,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
+            "n_features": 1,
             "data": "./data/DataForModels/Univariate/data_pzamont.csv",
             "model_name": "alicante_montaneta",
             "model_file":"./LoadedModels/Univariate/PlazaMontModel.h5",
@@ -91,6 +97,7 @@
         {
             "n_days":7,
             "predicted_timesteps":48,
+            "n_features": 1,
             "data": "./data/DataForModels/Univariate/data_rambla.csv",
             "model_name": "alicante_rambla",
             "model_file":"./LoadedModels/Univariate/RamblaModel.h5",
