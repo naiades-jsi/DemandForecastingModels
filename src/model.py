@@ -125,7 +125,7 @@ class LSTM_model():
         n_future = self.n_days*self.predicted_timesteps
 
         if(scaled_ftr_vector.shape[0] == n_future):
-            scaled_forecast = self.model.predict(scaled_ftr_vector.reshape(scaled_ftr_vector.shape[0], self.predicted_timesteps, self.n_features))
+            scaled_forecast = self.model.predict(scaled_ftr_vector.reshape((scaled_ftr_vector.shape[0], self.predicted_timesteps, self.n_features), order = 'C'))
 
             # To inverse scale it
             predictions = self.reverse_normalization(scaled_forecast)
