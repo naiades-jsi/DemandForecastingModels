@@ -9,4 +9,4 @@ requests==2.25.1
 scikit_learn==1.0.1
 scipy==1.6.3
 tensorflow==2.7.0
-tf_nightly==2.7.0.dev20210911
+tf_nightly==2.9.0.dev20220305

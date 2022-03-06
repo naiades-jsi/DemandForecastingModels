@@ -40,7 +40,7 @@
             "n_features": 1,
             "data": "./data/DataForModels/Univariate/data_autobus.csv",
             "model_name": "alicante_autobuses",
-            "model_file":"./LoadedModels/Univariate/AutobusModel.h5",
+            "model_file":"./LoadedModels/Univariate/AutoBusModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_autobuses_flow"

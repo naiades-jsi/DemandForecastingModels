@@ -29,7 +29,7 @@
             "n_features": 6,
             "data": "./data/DataForModels/Multivariate/data_Alipark.csv",
             "model_name": "alicante_alipark_multi",
-            "model_file":"./LoadedModels/Multivariate/FinalMultiModelAutobus.h5",
+            "model_file":"./LoadedModels/Multivariate/FinalMultiModelAlipark.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_alicante_Alipark_flow_w"
