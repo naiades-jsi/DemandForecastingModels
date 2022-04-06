@@ -19,7 +19,7 @@
             "predicted_timesteps":48,
             "n_features": 1,
             "data": "./data/DataForModels/Braila/Flow.csv",
-            "model_name": "Braila",
+            "model_name": "BrailaFlow",
             "model_file":"./LoadedModels/Braila/BrailaModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
@@ -31,7 +31,7 @@
             "predicted_timesteps":48,
             "n_features": 1,
             "data": "./data/DataForModels/Braila/AnalogInput1.csv",
-            "model_name": "Braila",
+            "model_name": "BrailaAnalog1",
             "model_file":"./LoadedModels/Braila/BrailaModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
@@ -43,7 +43,7 @@
             "predicted_timesteps":48,
             "n_features": 1,
             "data": "./data/DataForModels/Braila/AnalogInput2.csv",
-            "model_name": "Braila",
+            "model_name": "BrailaAnalog2",
             "model_file":"./LoadedModels/Braila/BrailaModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
