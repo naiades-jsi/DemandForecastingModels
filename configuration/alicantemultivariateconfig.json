@@ -10,7 +10,7 @@
         "features_alicante_benalua_forecasting_w",
         "features_alicante_diputacion_forecasting_w",
         "features_alicante_mercado_forecasting_w",
-        "features_alicante_pzamont_forecasting_w",
+        "features_alicante_montaneta_forecasting_w",
         "features_alicante_rambla_forecasting_w"
     ],
     "bootstrap_servers": "localhost:9092",

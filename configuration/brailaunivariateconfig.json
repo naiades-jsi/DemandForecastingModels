@@ -5,20 +5,49 @@
     "group_id": "my-group",
     "value_deserializer": "lambda x: loads(x.decode('utf-8'))",
     "topics":[
-        "brailatopic"
+        "brailaflow",
+        "brailanaloginput1",
+        "brailanaloginput2"
     ],
-    "model_alg": ["LSTM_model()"],
+    "model_alg": [
+        "LSTM_model()", 
+        "LSTM_model()", 
+        "LSTM_model()"],
     "model_conf":[
         {
             "n_days":7,
             "predicted_timesteps":48,
             "n_features": 1,
-            "data": "./data/DataForModels/Braila/data.csv",
+            "data": "./data/DataForModels/Braila/Flow.csv",
             "model_name": "Braila",
             "model_file":"./LoadedModels/Braila/BrailaModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
                 "output_topic": "predictions_braila_flow"
+            }]
+        },
+        {
+            "n_days":7,
+            "predicted_timesteps":48,
+            "n_features": 1,
+            "data": "./data/DataForModels/Braila/AnalogInput1.csv",
+            "model_name": "Braila",
+            "model_file":"./LoadedModels/Braila/BrailaModel.h5",
+            "output": ["KafkaOutput()"],
+            "output_conf": [{
+                "output_topic": "predictions_braila_analog_input1"
+            }]
+        },
+        {
+            "n_days":7,
+            "predicted_timesteps":48,
+            "n_features": 1,
+            "data": "./data/DataForModels/Braila/AnalogInput2.csv",
+            "model_name": "Braila",
+            "model_file":"./LoadedModels/Braila/BrailaModel.h5",
+            "output": ["KafkaOutput()"],
+            "output_conf": [{
+                "output_topic": "predictions_braila_analog_input_2"
             }]
         }
     ]

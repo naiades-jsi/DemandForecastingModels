@@ -14,7 +14,7 @@ def feature_vector_normalization(ftr_vector):
     scaled_ftr_vector = (ftr_vector-np.min(ftr_vector))/(np.max(ftr_vector)-np.min(ftr_vector))
     return scaled_ftr_vector
 
-data = pd.read_csv('./data/DataForModels/Braila/data.csv')
+data = pd.read_csv('./data/DataForModels/Braila/Flow.csv')
 Values = data['Values']
 values = Values[int(0.8*len(Values))+1:]
 test_component = feature_vector_normalization(values)
