@@ -13,7 +13,7 @@
             "n_days":7,
             "predicted_timesteps":36,
             "n_features": 1,
-            "data": "./data/DataForModels/Braila/Flow1.csv",
+            "data": "./data/DataForModels/Braila/Flow2.csv",
             "model_name": "Braila",
             "model_file":"./LoadedModels/Braila/BrailaModel.h5",
             "output": ["KafkaOutput()"],
