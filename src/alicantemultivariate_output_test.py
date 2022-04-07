@@ -10,8 +10,8 @@ producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
                          value_serializer=lambda v: json.dumps(v).encode('utf-8'))
 
 
-data = pd.read_csv('./data/DataForModels/Multivariate/data_Autobus.csv')
-scaled_data = pd.read_csv('./data/DataForModels/Multivariate/scaled_data_Autobus.csv')
+data = pd.read_csv('../data/DataForModels/Multivariate/data_Autobus.csv')
+scaled_data = pd.read_csv('../data/DataForModels/Multivariate/scaled_data_Autobus.csv')
 
 test_component = np.array(data[int(0.8*len(data))+1:])
 scaled_test_component = np.array(scaled_data[int(0.8*len(scaled_data))+1:])
@@ -30,7 +30,8 @@ for i in range(400):
         data = {"ftr_vector" : list(arr1),
                 "timestamp": str(datetime.now())}
         
-        print(data['ftr_vector'])
+        #print(data['ftr_vector'])
+        print(i)
 
         producer.send('prediction_alicante_multi', value=data)
         sleep(0.1)

@@ -11,7 +11,7 @@
     "model_conf":[
         {
             "n_days":7,
-            "predicted_timesteps":48,
+            "predicted_timesteps":36,
             "n_features": 1,
             "data": "./data/DataForModels/Braila/Flow.csv",
             "model_name": "Braila",
