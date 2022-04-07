@@ -5,9 +5,10 @@
     "group_id": "my-group",
     "value_deserializer": "lambda x: loads(x.decode('utf-8'))",
     "topics":[
-        "brailaflow",
-        "brailanaloginput1",
-        "brailanaloginput2"
+        "feature_braila_flow211106H360_forecasting",
+        "feature_braila_flow211206H360_forecasting",
+        "feature_braila_flow211306H360_forecasting",
+        "feature_braila_flow318505H498_forecasting"
     ],
     "model_alg": [
         "LSTM_model()", 
@@ -16,38 +17,50 @@
     "model_conf":[
         {
             "n_days":7,
-            "predicted_timesteps":48,
+            "predicted_timesteps":36,
             "n_features": 1,
-            "data": "./data/DataForModels/Braila/Flow.csv",
-            "model_name": "BrailaFlow",
+            "data": "./data/DataForModels/Braila/Flow1.csv",
+            "model_name": "Braila",
             "model_file":"./LoadedModels/Braila/BrailaModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
-                "output_topic": "predictions_braila_flow"
+                "output_topic": "predictions_braila_flow1"
             }]
         },
         {
             "n_days":7,
-            "predicted_timesteps":48,
+            "predicted_timesteps":36,
             "n_features": 1,
-            "data": "./data/DataForModels/Braila/AnalogInput1.csv",
-            "model_name": "BrailaAnalog1",
+            "data": "./data/DataForModels/Braila/Flow2.csv",
+            "model_name": "Braila",
             "model_file":"./LoadedModels/Braila/BrailaModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
-                "output_topic": "predictions_braila_analog_input1"
+                "output_topic": "predictions_braila_flow2"
             }]
         },
         {
             "n_days":7,
-            "predicted_timesteps":48,
+            "predicted_timesteps":36,
             "n_features": 1,
-            "data": "./data/DataForModels/Braila/AnalogInput2.csv",
-            "model_name": "BrailaAnalog2",
+            "data": "./data/DataForModels/Braila/Flow3.csv",
+            "model_name": "Braila",
             "model_file":"./LoadedModels/Braila/BrailaModel.h5",
             "output": ["KafkaOutput()"],
             "output_conf": [{
-                "output_topic": "predictions_braila_analog_input_2"
+                "output_topic": "predictions_braila_flow3"
+            }]
+        },
+        {
+            "n_days":7,
+            "predicted_timesteps":36,
+            "n_features": 1,
+            "data": "./data/DataForModels/Braila/Flow4.csv",
+            "model_name": "Braila",
+            "model_file":"./LoadedModels/Braila/BrailaModel.h5",
+            "output": ["KafkaOutput()"],
+            "output_conf": [{
+                "output_topic": "predictions_braila_flow4"
             }]
         }
     ]
