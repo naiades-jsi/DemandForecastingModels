@@ -1,7 +1,7 @@
 # Models For Alicante
 
 ## About
-This repository contains data and code for reproducing long time forecasting on
+This repository contains data and code for reproducing short and long term forecasting on
 time series data using Chaos Theory, Entropy Theory, Differential Geometry, etc.
 
 ## References
