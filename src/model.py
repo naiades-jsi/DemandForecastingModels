@@ -13,6 +13,7 @@ import h5py
 import numpy.ma as ma
 import time
 import matplotlib.pyplot as plt
+from sklearn.impute import KNNImputer
 
 
 physical_devices = tf.config.list_physical_devices('GPU')
@@ -49,12 +50,21 @@ class LSTM_model():
         # number of days to predict
         self.n_days = conf["n_days"]
 
+        #number of features used
         self.n_features = conf["n_features"]
 
+        #model loading
         if ("model_file" in conf):
-            print("loading_model")
+            print("loading_model", flush = True)
             self.model_file = conf["model_file"]
             self.model = self.load_model(self.model_file)
+
+        #missing data imputer configuration
+        if ("fill_missing_data" in conf):
+            print("loading_data", flush = True)
+            self.max_missing_data_memory = conf["max_missing_data_memory"]
+            self.missing_data_memory = np.load(conf["fill_missing_data"])
+            self.imputer = KNNImputer(n_neighbors=4)
 
         self.outputs = [eval(o) for o in conf["output"]]
         output_configurations = conf["output_conf"]
@@ -71,23 +81,21 @@ class LSTM_model():
         return(load_model(filename))
 
     def feature_vector_creation(self, message_value: Dict[Any, Any]) -> Any:
-        scaled_value = self.feature_vector_normalization(message_value["ftr_vector"])
         value = message_value["ftr_vector"]
         timestamp = message_value["timestamp"]
 
-        if(len(scaled_value) != self.predicted_timesteps*self.n_features):
+        value = self.fill_missing_data(np.array([value]))
+
+        scaled_value = self.feature_vector_normalization(value)
+        
+
+        if(len(scaled_value) != int(self.predicted_timesteps/2*self.n_features)):
             return
         else:
             self.scaled_feature_vector_array.append(scaled_value)
             self.feature_vector_array.append(value)
-
-            #if(len(self.feature_vector_array[-1]) != 24):
-            #    print("not enough values")
-            #    return
-
-            #print("\n")
             
-            print(len(self.feature_vector_array))
+            #print(len(self.feature_vector_array))
 
             if(len(self.scaled_feature_vector_array) > self.n_days*self.predicted_timesteps):
                 self.scaled_feature_vector_array = self.scaled_feature_vector_array[-self.n_days*self.predicted_timesteps:]
@@ -111,25 +119,39 @@ class LSTM_model():
         reverse_predictions = np.array(predictions)*(maxX-minX)+minX
         return reverse_predictions
 
+    def fill_missing_data(self, ftr_vector):
+
+        #Append incoming FV to missing data memory
+        self.missing_data_memory = np.concatenate([self.missing_data_memory, ftr_vector])
+
+        if(len(self.missing_data_memory) > self.max_missing_data_memory):
+            self.missing_data_memory = self.missing_data_memory[-self.max_missing_data_memory:]
+
+        #Fill missing data. Last value is the incoming FV.
+        filled_ftr_vector = self.imputer.fit_transform(self.missing_data_memory)[-1]
+
+        return filled_ftr_vector
+
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
         
-        #timesteps = 24
-        #data = pd.read_csv(self.data)
-        #values = data['Values']
-        #test_component = values[int(0.8*len(values))+1:]
-        #ftr_vector = np.array([test_component[t:t+timesteps] for t in range(0, len(test_component)-timesteps)])
         ftr_vector = np.array(message_value['ftr_vector'])
+        #ftr_vector = self.fill_missing_data(ftr_vector)
+
         scaled_ftr_vector = self.feature_vector_normalization(ftr_vector)
-        print(scaled_ftr_vector.shape)
+        #print(f'input FV shape: {scaled_ftr_vector.shape}')
         timestamp = message_value["timestamp"]
         n_future = self.n_days*self.predicted_timesteps
 
-        if(scaled_ftr_vector.shape[0] == n_future):
-            scaled_forecast = self.model.predict(scaled_ftr_vector.reshape((scaled_ftr_vector.shape[0], self.predicted_timesteps, self.n_features), order = 'C'))
+        #print(f'FV: {scaled_ftr_vector}')
+
+        try:
+
+            scaled_forecast = self.model.predict(scaled_ftr_vector.reshape((scaled_ftr_vector.shape[0], int(self.predicted_timesteps/2), self.n_features), order = 'C'))
 
             # To inverse scale it
             predictions = self.reverse_normalization(scaled_forecast)
-        else:
+        except:
+            print('Exception in LSTM prediction.', flush = True)
             predictions = None
 
 
@@ -141,12 +163,20 @@ class LSTM_model():
 
         if(predictions is not None):
             for output in self.outputs:
+                
+                if(len(predictions.flatten()) < n_future):
+                    out_array = np.concatenate([predictions.flatten(), np.zeros(n_future - len(predictions.flatten()))])
+                else:
+                    out_array = predictions.flatten()
                 # Create output dictionary
                 output_dictionary = {
                     "timestamp": message_value['timestamp'],
-                    "value": list([float(x) for x in predictions.flatten()]),
+                    "value": list([float(x) for x in out_array]),
                     "prediction_time": time.time()}
                 
+                #print(f'Predictions: {predictions}')
+                #print(f'Output: {output_dictionary}')
+
                 # Send out
                 output.send_out(timestamp=timestamp,
                                 value=output_dictionary,
