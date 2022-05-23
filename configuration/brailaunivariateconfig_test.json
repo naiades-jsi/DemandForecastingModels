@@ -1,8 +1,8 @@
 {
     "bootstrap_servers": ["localhost:9092"],
-    "auto_offset_reset": "latest",
+    "auto_offset_reset": "earliest",
     "enable_auto_commit": "True",
-    "group_id": "my-group",
+    "group_id": "my-group-test",
     "value_deserializer": "lambda x: loads(x.decode('utf-8'))",
     "topics":[
         "prediction_braila_uni"
@@ -11,9 +11,11 @@
     "model_conf":[
         {
             "n_days":7,
-            "predicted_timesteps":36,
+            "predicted_timesteps":72,
             "n_features": 1,
             "data": "./data/DataForModels/Braila/Flow2.csv",
+            "fill_missing_data": "./data/missingDataBraila2.npy",
+            "max_missing_data_memory":500,
             "model_name": "Braila",
             "model_file":"./LoadedModels/Braila/BrailaModel.h5",
             "output": ["KafkaOutput()"],

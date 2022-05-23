@@ -14,7 +14,7 @@ def feature_vector_normalization(ftr_vector):
     scaled_ftr_vector = (ftr_vector-np.min(ftr_vector))/(np.max(ftr_vector)-np.min(ftr_vector))
     return scaled_ftr_vector
 
-data = pd.read_csv('./data/DataForModels/Braila/Flow2.csv')
+data = pd.read_csv('../data/DataForModels/Braila/Flow2.csv')
 Values = data['Values']
 values = Values[int(0.8*len(Values))+1:]
 test_component = feature_vector_normalization(values)
@@ -30,14 +30,19 @@ scaled_ftr_vector = np.array([test_component[t:t+timesteps] for t in range(0, le
 for i in range(400):
     # send fvs of shape (1, timesteps*n_features)
 
-    arr = np.array(ftr_vector[i]).reshape(1, timesteps*n_features, order = 'C')[0]
+    #arr = np.array(ftr_vector[i]).reshape(1, timesteps*n_features, order = 'C')[0]
 
+    arr = np.random.rand(24*6)
+    arr[10] = None
+    #arr[25] = None
+
+    print(arr)
     data = {"ftr_vector" : list(arr),
             "timestamp": str(datetime.now())
             # no scaled_ftr_vector_here!
             }
     
     #print(data['ftr_vector'])
-    producer.send('prediction_braila_uni', value=data)
+    producer.send('prediction_alicante_multi', value=data)
     print(i)
-    sleep(0.1)
+    sleep(5)
