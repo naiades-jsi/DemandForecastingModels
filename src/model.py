@@ -63,7 +63,7 @@ class LSTM_model():
         if ("fill_missing_data" in conf):
             print("loading_data", flush = True)
             self.max_missing_data_memory = conf["max_missing_data_memory"]
-            self.missing_data_memory = np.load(conf["fill_missing_data"])
+            self.missing_data_memory = np.load(conf["fill_missing_data"], allow_pickle=True)
             self.imputer = KNNImputer(n_neighbors=4)
 
         self.outputs = [eval(o) for o in conf["output"]]
