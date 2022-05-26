@@ -1,76 +1,95 @@
 {
-    "bootstrap_servers": ["localhost:9092"],
+    "bootstrap_servers": [
+        "localhost:9092"
+    ],
     "auto_offset_reset": "latest",
     "enable_auto_commit": "True",
     "group_id": "my-group",
     "value_deserializer": "lambda x: loads(x.decode('utf-8'))",
-    "topics":[
+    "topics": [
         "features_braila_flow211106H360_forecasting",
         "features_braila_flow211206H360_forecasting",
         "features_braila_flow211306H360_forecasting",
         "features_braila_flow318505H498_forecasting"
     ],
     "model_alg": [
-        "LSTM_model()", 
         "LSTM_model()",
-        "LSTM_model()", 
-        "LSTM_model()"],
-    "model_conf":[
+        "LSTM_model()",
+        "LSTM_model()",
+        "LSTM_model()"
+    ],
+    "model_conf": [
         {
-            "n_days":7,
-            "predicted_timesteps":72,
+            "n_days": 7,
+            "predicted_timesteps": 72,
             "n_features": 1,
             "fill_missing_data": "./data/MissingData/missingDataBraila1.npy",
-            "max_missing_data_memory":500,
+            "max_missing_data_memory": 500,
             "data": "./data/DataForModels/Braila/Flow1.csv",
             "model_name": "Braila",
-            "model_file":"./LoadedModels/Braila/BrailaModel.h5",
-            "output": ["KafkaOutput()"],
-            "output_conf": [{
-                "output_topic": "predictions_braila_flow1"
-            }]
+            "model_file": "./LoadedModels/Braila/BrailaModel.h5",
+            "output": [
+                "KafkaOutput()"
+            ],
+            "output_conf": [
+                {
+                    "output_topic": "predictions_braila_flow211106H360_prediction"
+                }
+            ]
         },
         {
-            "n_days":7,
-            "predicted_timesteps":72,
+            "n_days": 7,
+            "predicted_timesteps": 72,
             "n_features": 1,
             "fill_missing_data": "./data/MissingData/missingDataBraila2.npy",
-            "max_missing_data_memory":500,
+            "max_missing_data_memory": 500,
             "data": "./data/DataForModels/Braila/Flow2.csv",
             "model_name": "Braila",
-            "model_file":"./LoadedModels/Braila/BrailaModel.h5",
-            "output": ["KafkaOutput()"],
-            "output_conf": [{
-                "output_topic": "predictions_braila_flow2"
-            }]
+            "model_file": "./LoadedModels/Braila/BrailaModel.h5",
+            "output": [
+                "KafkaOutput()"
+            ],
+            "output_conf": [
+                {
+                    "output_topic": "predictions_braila_flow211206H360_prediction"
+                }
+            ]
         },
         {
-            "n_days":7,
-            "predicted_timesteps":72,
+            "n_days": 7,
+            "predicted_timesteps": 72,
             "n_features": 1,
             "fill_missing_data": "./data/MissingData/missingDataBraila3.npy",
-            "max_missing_data_memory":500,
+            "max_missing_data_memory": 500,
             "data": "./data/DataForModels/Braila/Flow3.csv",
             "model_name": "Braila",
-            "model_file":"./LoadedModels/Braila/BrailaModel.h5",
-            "output": ["KafkaOutput()"],
-            "output_conf": [{
-                "output_topic": "predictions_braila_flow3"
-            }]
+            "model_file": "./LoadedModels/Braila/BrailaModel.h5",
+            "output": [
+                "KafkaOutput()"
+            ],
+            "output_conf": [
+                {
+                    "output_topic": "predictions_braila_flow211306H360_prediction"
+                }
+            ]
         },
         {
-            "n_days":7,
-            "predicted_timesteps":72,
+            "n_days": 7,
+            "predicted_timesteps": 72,
             "n_features": 1,
             "fill_missing_data": "./data/MissingData/missingDataBraila4.npy",
-            "max_missing_data_memory":500,
+            "max_missing_data_memory": 500,
             "data": "./data/DataForModels/Braila/Flow4.csv",
             "model_name": "Braila",
-            "model_file":"./LoadedModels/Braila/BrailaModel.h5",
-            "output": ["KafkaOutput()"],
-            "output_conf": [{
-                "output_topic": "predictions_braila_flow4"
-            }]
+            "model_file": "./LoadedModels/Braila/BrailaModel.h5",
+            "output": [
+                "KafkaOutput()"
+            ],
+            "output_conf": [
+                {
+                    "output_topic": "predictions_braila_flow318505H498_prediction"
+                }
+            ]
         }
     ]
 }
