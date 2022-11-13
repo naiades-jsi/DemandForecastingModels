@@ -295,7 +295,8 @@ class GDB_model():
         # we do not need scaling for GDB
         scaled_value = value
 
-        if(len(scaled_value) != int(self.predicted_timesteps/2*self.n_features)):
+        if(len(scaled_value) != (int(self.predicted_timesteps/2*self.n_features)) + 2):
+            LOGGER.error("Feature vector length does not match the model input length")
             return
         else:
             self.scaled_feature_vector_array.append(scaled_value)
@@ -366,14 +367,14 @@ class GDB_model():
         #print(f'FV: {scaled_ftr_vector}')
 
         try:
-
+            LOGGER.info("Predicting: %s", self.model_name)
             scaled_forecast = self.model.predict(scaled_ftr_vector.reshape((scaled_ftr_vector.shape[0], int(self.predicted_timesteps/2), self.n_features), order = 'C'))
 
             # To inverse scale it
             # predictions = self.reverse_normalization(scaled_forecast)
             predictions = scaled_forecast
         except:
-            print('Exception in GDB prediction.', flush = True)
+            LOGGER.error('Exception in GDB prediction: %s', self.model_name)
             predictions = None
 
 
@@ -399,6 +400,7 @@ class GDB_model():
 
                 #print(f'Predictions: {predictions}')
                 #print(f'Output: {output_dictionary}')
+                LOGGER.info("Sending prediction to kafka topic for model: %s", self.model_name)
 
                 # Send out
                 output.send_out(timestamp=timestamp,
