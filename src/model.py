@@ -2,14 +2,14 @@ from typing import Any, Dict, List
 import numpy as np
 import numpy.ma as ma
 import pandas as pd
-import tensorflow as tf
+#import tensorflow as tf
 import datetime
 import pickle
 from sklearn.preprocessing import MinMaxScaler
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.models import load_model
-from tensorflow.keras.layers import Dense, LSTM, Dropout, TimeDistributed, Masking
-from tensorflow.keras.optimizers import Adam
+#from tensorflow.keras.models import Sequential
+#from tensorflow.keras.models import load_model
+#from tensorflow.keras.layers import Dense, LSTM, Dropout, TimeDistributed, Masking
+#from tensorflow.keras.optimizers import Adam
 from src.output import OutputAbstract, KafkaOutput
 import h5py
 import numpy.ma as ma
@@ -23,9 +23,10 @@ LOGGER = logging.getLogger("wf-monitor")
 logging.basicConfig(
     format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s", level=logging.INFO)
 
-physical_devices = tf.config.list_physical_devices('GPU')
-#tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
-print(physical_devices)
+# not loading TF for Alicante (uncomment for Braila)
+# physical_devices = tf.config.list_physical_devices('GPU')
+# tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
+# print(physical_devices)
 
 class LSTM_model():
     training_data: str

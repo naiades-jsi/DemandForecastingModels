@@ -14,6 +14,7 @@ import numpy as np
 import pandas as pd
 import datetime
 from model import LSTM_model
+from model import GDB_model
 
 
 class ConsumerAbstract(ABC):
@@ -62,13 +63,13 @@ class ConsumerKafka(ConsumerAbstract):
             self.configure(con=conf)
         else:
             print("No configuration was given")
-        
+
         print("ConsumerKafka initialized", flush=True)
 
     def configure(self, con: Dict[Any, Any] = None) -> None:
         if(con is None):
             print("No configuration was given")
-            return 
+            return
 
         if("filtering" in con):
             self.filtering = con['filtering']
@@ -104,7 +105,7 @@ class ConsumerKafka(ConsumerAbstract):
                               algorithm_indx=algorithm_indx)
             self.models.append(Model)
             algorithm_indx += 1
-            
+
     def read(self) -> None:
         print("ConsumerKafka reading", flush=True)
         for message in self.consumer:
@@ -113,7 +114,7 @@ class ConsumerKafka(ConsumerAbstract):
             topic = message.topic
             print('topic: ' + str(topic), flush=True)
             algorithm_indx = self.topics.index(topic)
-            
+
             #check if this topic needs filtering
             if(self.filtering is not None and eval(self.filtering[algorithm_indx]) is not None):
                 #extract target time and tolerance
