@@ -2,7 +2,6 @@
 *.npy
 *.jpg
 *-checkpoint.ipynb
-*.ipynb
 AliPark
 AutoBus
 Benalua
