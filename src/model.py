@@ -370,7 +370,7 @@ class GDB_model():
 
         try:
             LOGGER.info("Predicting: %s", self.model_name)
-            scaled_forecast = self.model.predict(scaled_ftr_vector.reshape((scaled_ftr_vector.shape[0], int(self.predicted_timesteps/2), self.n_features), order = 'C'))
+            scaled_forecast = self.model.predict(scaled_ftr_vector.reshape((scaled_ftr_vector.shape[0], int(self.predicted_timesteps/2) + 2, self.n_features), order = 'C'))
 
             # To inverse scale it
             # predictions = self.reverse_normalization(scaled_forecast)
