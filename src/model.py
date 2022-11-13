@@ -19,7 +19,7 @@ from sklearn.impute import KNNImputer
 import logging
 
 # logging
-LOGGER = logging.getLogger("wf-monitor")
+LOGGER = logging.getLogger("src.model")
 logging.basicConfig(
     format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s", level=logging.INFO)
 
@@ -370,7 +370,9 @@ class GDB_model():
 
         try:
             LOGGER.info("Predicting: %s", self.model_name)
-            scaled_forecast = self.model.predict(scaled_ftr_vector.reshape((scaled_ftr_vector.shape[0], int(self.predicted_timesteps/2) + 2, self.n_features), order = 'C'))
+            # scaled_forecast = self.model.predict(scaled_ftr_vector.reshape((scaled_ftr_vector.shape[0], int(self.predicted_timesteps/2) + 2, self.n_features), order = 'C'))
+            # we have no need for reshaping the input data for GDB
+            scaled_forecast = self.model.predict(scaled_ftr_vector)
 
             # To inverse scale it
             # predictions = self.reverse_normalization(scaled_forecast)
