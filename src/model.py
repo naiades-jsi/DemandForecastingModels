@@ -399,7 +399,7 @@ class GDB_model():
 
                 # Create output dictionary
                 output_dictionary = {
-                    "timestamp": message_value['timestamp'],
+                    "timestamp": message_value['timestamp'] * 1000,
                     "value": list([float(x) for x in out_array]),
                     "prediction_time": time.time()}
 
