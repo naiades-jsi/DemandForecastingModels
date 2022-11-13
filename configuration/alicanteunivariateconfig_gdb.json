@@ -1,0 +1,124 @@
+{
+    "bootstrap_servers": ["localhost:9092"],
+    "auto_offset_reset": "latest",
+    "enable_auto_commit": "True",
+    "group_id": "my-group",
+    "value_deserializer": "lambda x: loads(x.decode('utf-8'))",
+    "topics":[
+        "features_alicante_alipark_flow_forecasting",
+        "features_alicante_autobuses_flow_forecasting",
+        "features_alicante_benalua_flow_forecasting",
+        "features_alicante_diputacion_flow_forecasting",
+        "features_alicante_mercado_flow_forecasting",
+        "features_alicante_montaneta_flow_forecasting",
+        "features_alicante_rambla_flow_forecasting"
+    ],
+    "model_alg": [
+        "GDB_model()",
+        "GDB_model()",
+        "GDB_model()",
+        "GDB_model()",
+        "GDB_model()",
+        "GDB_model()",
+        "GDB_model()"],
+    "model_conf":[
+        {
+            "n_days": 7,
+            "predicted_timesteps": 48,
+            "n_features": 1,
+            "fill_missing_data": "./data/MissingData/missingDataAlicanteUnialipark.npy",
+            "max_missing_data_memory":500,
+            "data": "./data/DataForModels/Univariate/data_alipark.csv",
+            "model_name": "alicante_alipark",
+            "model_file":"./LoadedModels/UnivariateGDB/alipark.pkl",
+            "output": ["KafkaOutput()"],
+            "output_conf": [{
+                "output_topic": "predictions_alicante_alipark_flow"
+            }]
+        },
+        {
+            "n_days":7,
+            "predicted_timesteps":48,
+            "n_features": 1,
+            "fill_missing_data": "./data/MissingData/missingDataAlicanteUniautobus.npy",
+            "max_missing_data_memory":500,
+            "data": "./data/DataForModels/Univariate/data_autobus.csv",
+            "model_name": "alicante_autobuses",
+            "model_file":"./LoadedModels/UnivariateGDB/autobuses.pkl",
+            "output": ["KafkaOutput()"],
+            "output_conf": [{
+                "output_topic": "predictions_alicante_autobuses_flow"
+            }]
+        },
+        {
+            "n_days":7,
+            "predicted_timesteps":48,
+            "n_features": 1,
+            "fill_missing_data": "./data/MissingData/missingDataAlicanteUnibenalua.npy",
+            "max_missing_data_memory":500,
+            "data": "./data/DataForModels/Univariate/data_benalua.csv",
+            "model_name": "alicante_benalua",
+            "model_file":"./LoadedModels/UnivariateGDB/benalua.pkl",
+            "output": ["KafkaOutput()"],
+            "output_conf": [{
+                "output_topic": "predictions_alicante_benalua_flow"
+            }]
+        },
+        {
+            "n_days":7,
+            "predicted_timesteps":48,
+            "n_features": 1,
+            "fill_missing_data": "./data/MissingData/missingDataAlicanteUnidiputacion.npy",
+            "max_missing_data_memory":500,
+            "data": "./data/DataForModels/Univariate/data_diputacion.csv",
+            "model_name": "alicante_diputacion",
+            "model_file":"./LoadedModels/UnivariateGDB/diputacion.pkl",
+            "output": ["KafkaOutput()"],
+            "output_conf": [{
+                "output_topic": "predictions_alicante_diputacion_flow"
+            }]
+        },
+        {
+            "n_days":7,
+            "predicted_timesteps":48,
+            "n_features": 1,
+            "fill_missing_data": "./data/MissingData/missingDataAlicanteUnimercado.npy",
+            "max_missing_data_memory":500,
+            "data": "./data/DataForModels/Univariate/data_mercado.csv",
+            "model_name": "alicante_mercado",
+            "model_file":"./LoadedModels/UnivariateGDB/mercado.pkl",
+            "output": ["KafkaOutput()"],
+            "output_conf": [{
+                "output_topic": "predictions_alicante_mercado_flow"
+            }]
+        },
+        {
+            "n_days":7,
+            "predicted_timesteps":48,
+            "n_features": 1,
+            "fill_missing_data": "./data/MissingData/missingDataAlicanteUnipzamont.npy",
+            "max_missing_data_memory":500,
+            "data": "./data/DataForModels/Univariate/data_pzamont.csv",
+            "model_name": "alicante_montaneta",
+            "model_file":"./LoadedModels/UnivariateGDB/montaneta.pkl",
+            "output": ["KafkaOutput()"],
+            "output_conf": [{
+                "output_topic": "predictions_alicante_montaneta_flow"
+            }]
+        },
+        {
+            "n_days":7,
+            "predicted_timesteps":48,
+            "n_features": 1,
+            "fill_missing_data": "./data/MissingData/missingDataAlicanteUnirambla.npy",
+            "max_missing_data_memory":500,
+            "data": "./data/DataForModels/Univariate/data_rambla.csv",
+            "model_name": "alicante_rambla",
+            "model_file":"./LoadedModels/UnivariateGDB/rambla.pkl",
+            "output": ["KafkaOutput()"],
+            "output_conf": [{
+                "output_topic": "predictions_alicante_rambla_flow"
+            }]
+        }
+    ]
+}

@@ -8,6 +8,6 @@ COPY ./requirements.txt /requirements.txt
 WORKDIR /
 RUN pip3 install -r requirements.txt
 COPY . /
-# CMD ["python3", "main.py", "-c", "alicanteunivariateconfig.json"]
+CMD ["python3", "main.py", "-c", "alicanteunivariateconfig_gdb.json"]
 # CMD ["python3", "main.py", "-c", "alicantemultivariateconfig.json"]
-CMD ["python3", "main.py", "-c", "brailaunivariateconfig.json"]
+# CMD ["python3", "main.py", "-c", "brailaunivariateconfig.json"]
