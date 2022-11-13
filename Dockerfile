@@ -8,6 +8,8 @@ COPY ./requirements.txt /requirements.txt
 WORKDIR /
 RUN pip3 install -r requirements.txt
 COPY . /
+
+# e3ailab/gdb_alicante_univariate_ircai
 CMD ["python3", "main.py", "-c", "alicanteunivariateconfig_gdb.json"]
 # CMD ["python3", "main.py", "-c", "alicantemultivariateconfig.json"]
 # CMD ["python3", "main.py", "-c", "brailaunivariateconfig.json"]
