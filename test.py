@@ -1,10 +1,30 @@
-# test_module.py
-
+# imports
+import logging
 import unittest
+
+# handle logging
+logging.basicConfig(level=logging.ERROR)
+
+# project based tests
 from src.model import GDB_model
 
 class TestModule(unittest.TestCase):
-    def test_gdb(self):
+    def test_gdb_init(self):
+        config = {
+            "n_days": 7,
+            "predicted_timesteps": 48,
+            "n_features": 1,
+            "fill_missing_data": "./data/MissingData/missingDataAlicanteUnialipark.npy",
+            "max_missing_data_memory":500,
+            "data": "./data/DataForModels/Univariate/data_alipark.csv",
+            "model_name": "alicante_alipark",
+            "model_file":"./LoadedModels/UnivariateGDB/alipark.pkl",
+            "output": [],
+            "output_conf": []
+        }
+        model = GDB_model(config)
+
+    def test_gdb_prediciton(self):
         config = {
             "n_days": 7,
             "predicted_timesteps": 48,

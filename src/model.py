@@ -259,7 +259,9 @@ class GDB_model():
             The loaded model
         """
 
-        loaded_model = pickle.load(open(filename, 'rb'))
+        with open(filename, "rb") as f:
+            loaded_model = pickle.load(f)
+
         return(loaded_model)
 
     def feature_vector_creation(self, message_value: Dict[Any, Any]) -> Any:
