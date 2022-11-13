@@ -279,7 +279,7 @@ class GDB_model():
         """
 
         value = message_value["ftr_vector"]
-        timestamp = message_value["timestamp"]
+        timestamp = message_value["timestamp"] / 1000
 
         value = self.fill_missing_data(np.array([value]))
 
