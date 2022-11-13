@@ -375,8 +375,9 @@ class GDB_model():
             # To inverse scale it
             # predictions = self.reverse_normalization(scaled_forecast)
             predictions = scaled_forecast
-        except:
+        except Exception as e:
             LOGGER.error('Exception in GDB prediction: %s', self.model_name)
+            LOGGER.exception(str(e))
             predictions = None
 
 
