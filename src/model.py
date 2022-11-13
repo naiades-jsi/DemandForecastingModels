@@ -16,7 +16,12 @@ import numpy.ma as ma
 import time
 import matplotlib.pyplot as plt
 from sklearn.impute import KNNImputer
+import logging
 
+# logging
+LOGGER = logging.getLogger("wf-monitor")
+logging.basicConfig(
+    format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s", level=logging.INFO)
 
 physical_devices = tf.config.list_physical_devices('GPU')
 #tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
@@ -222,13 +227,13 @@ class GDB_model():
 
         #model loading
         if ("model_file" in conf):
-            print("loading_model", flush = True)
+            LOGGER.info("Loading_model: %s", conf["model_file"])
             self.model_file = conf["model_file"]
             self.model = self.load_model(self.model_file)
 
         # missing data imputer configuration
         if ("fill_missing_data" in conf):
-            print("loading_data", flush = True)
+            LOGGER.info("Loading missing data %s", conf["fill_missing_data"])
             self.max_missing_data_memory = conf["max_missing_data_memory"]
             self.missing_data_memory = np.load(conf["fill_missing_data"], allow_pickle=True)
             self.imputer = KNNImputer(n_neighbors=4)
@@ -239,9 +244,39 @@ class GDB_model():
             self.outputs[o].configure(conf = output_configurations[o])
 
     def load_model(self, filename):
-        return(load_model(filename))
+        """
+        Load a model from a file
+
+        Parameters
+        ----------
+        filename : str
+            The name of the file to load the model from
+
+        Returns
+        -------
+        model : object
+            The loaded model
+        """
+
+        loaded_model = pickle.load(open(filename, 'rb'))
+        return(loaded_model)
 
     def feature_vector_creation(self, message_value: Dict[Any, Any]) -> Any:
+        """
+        Create feature vector from incoming message. Also takes care of the
+        missing data imputation and adds time of day and day of week features.
+
+        Parameters
+        ----------
+        message_value : dict
+            The incoming message
+
+        Returns
+        -------
+        ftr_vector : np.array
+            The feature vector
+        """
+
         value = message_value["ftr_vector"]
         timestamp = message_value["timestamp"]
 
@@ -280,7 +315,19 @@ class GDB_model():
             self.message_insert(message_value=dict_to_insert)
 
     def fill_missing_data(self, ftr_vector):
+        """
+        Fill missing data in the feature vector using KNN imputer.
 
+        Parameters
+        ----------
+        ftr_vector : np.array
+            The feature vector
+
+        Returns
+        -------
+        ftr_vector : np.array
+            The feature vector with missing data filled
+        """
         # append incoming FV to missing data memory
         self.missing_data_memory = np.concatenate([self.missing_data_memory, ftr_vector])
 
@@ -293,6 +340,18 @@ class GDB_model():
         return filled_ftr_vector
 
     def message_insert(self, message_value: Dict[Any, Any]) -> Any:
+        """
+        Create prediction for the incoming message and send it out.
+
+        Parameters
+        ----------
+        message_value : dict
+            The incoming message
+
+        Returns
+        -------
+        None
+        """
 
         ftr_vector = np.array(message_value['ftr_vector'])
         #ftr_vector = self.fill_missing_data(ftr_vector)

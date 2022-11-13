@@ -12,6 +12,15 @@ from model import LSTM_model
 from multiprocessing import Process
 from datetime import datetime
 
+# setting version
+__version__ = "1.0.1"
+
+# logging
+LOGGER = logging.getLogger("wf-monitor")
+logging.basicConfig(
+    format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s", level=logging.INFO)
+
+
 
 def ping_watchdog(process):
     interval = 30 # ping interval in seconds
@@ -24,20 +33,20 @@ def ping_watchdog(process):
         try:
             r = requests.get("http://{}:{}{}".format(url, port, path))
         except requests.exceptions.RequestException as e:  # This is the correct syntax
-            logging.warning(e)
+            LOGGER.warning(e)
         else:
-            logging.info('Successful ping at ' + time.ctime())
+            LOGGER.info('Successful ping at ' + time.ctime())
         time.sleep(interval)
 
 def start_consumer(args):
     print("Start consumers", flush=True)
-    if(args.data_file):   
+    if(args.data_file):
         consumer = ConsumerFile(configuration_location=args.config)
     elif(args.data_both):
         consumer = ConsumerFileKafka(configuration_location=args.config)
     else:
         consumer = ConsumerKafka(configuration_location=args.config)
-    
+
     print("=== Service starting ===", flush=True)
     consumer.read()
 
@@ -93,13 +102,14 @@ def main():
         process.start()
 
         # On the main thread ping watchdog if child process is alive
-        print("=== Watchdog started ==", flush=True) 
+        print("=== Watchdog started ==", flush=True)
         ping_watchdog(process)
     else:
         start_consumer(args)
 
-    
+
 
 
 if (__name__ == '__main__'):
+    LOGGER.info("Starting modeling service, v.{}".format(__version__))
     main()
