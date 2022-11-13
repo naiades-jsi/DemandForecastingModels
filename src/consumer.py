@@ -13,9 +13,14 @@ from time import sleep
 import numpy as np
 import pandas as pd
 import datetime
+import logging
 from model import LSTM_model
 from model import GDB_model
 
+# logging
+LOGGER = logging.getLogger("wf-monitor")
+logging.basicConfig(
+    format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s", level=logging.INFO)
 
 class ConsumerAbstract(ABC):
     configuration_location: str
@@ -62,13 +67,13 @@ class ConsumerKafka(ConsumerAbstract):
                 conf = json.load(data_file)
             self.configure(con=conf)
         else:
-            print("No configuration was given")
+            LOGGER.error("No configuration was given")
 
-        print("ConsumerKafka initialized", flush=True)
+        LOGGER.info("ConsumerKafka initialized")
 
     def configure(self, con: Dict[Any, Any] = None) -> None:
         if(con is None):
-            print("No configuration was given")
+            LOGGER.error("No configuration was given")
             return
 
         if("filtering" in con):
@@ -96,9 +101,9 @@ class ConsumerKafka(ConsumerAbstract):
                 "Number of algorithms, configurations and topics does not match"
         self.models = []
         algorithm_indx = 0
-        print("ConsumerKafka configuring models", flush=True)
+        LOGGER.info("ConsumerKafka configuring models")
         for model_name in self.model_names:
-            print("Working on model " + str(model_name) + " " + str(algorithm_indx), flush=True)
+            LOGGER.info("Working on model " + str(model_name) + " " + str(algorithm_indx))
             Model = eval(model_name)
             Model.configure(self.model_configurations[algorithm_indx],
                               configuration_location=self.configuration_location,
@@ -107,12 +112,12 @@ class ConsumerKafka(ConsumerAbstract):
             algorithm_indx += 1
 
     def read(self) -> None:
-        print("ConsumerKafka reading", flush=True)
+        LOGGER.info("ConsumerKafka reading")
         for message in self.consumer:
             # Get topic and insert into correct algorithm
             #print(message)
             topic = message.topic
-            print('topic: ' + str(topic), flush=True)
+            LOGGER.info('Message received on a topic: ' + str(topic))
             algorithm_indx = self.topics.index(topic)
 
             #check if this topic needs filtering
@@ -122,8 +127,11 @@ class ConsumerKafka(ConsumerAbstract):
                 message = self.filter_by_time(message, target_time, tolerance)
 
             if message is not None:
+                LOGGER.info("Invoking model %s", self.models[algorithm_indx].model_name)
                 value = message.value
                 self.models[algorithm_indx].feature_vector_creation(value)
+            else:
+                LOGGER.info("Message was filtered out (None).")
 
     def filter_by_time(self, message, target_time, tolerance):
         #convert to timedelta objects
@@ -131,7 +139,7 @@ class ConsumerKafka(ConsumerAbstract):
         # Convert unix timestamp to datetime format (with seconds unit if
         # possible else miliseconds)
 
-        print('filering; timestamp: ' + str(message.value['timestamp']), flush=True)
+        LOGGER.info('filering; timestamp: ' + str(message.value['timestamp']))
         try:
             timestamp = pd.to_datetime(message.value['timestamp'], unit="s")
         except(pd._libs.tslibs.np_datetime.OutOfBoundsDatetime):

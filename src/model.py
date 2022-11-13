@@ -299,6 +299,8 @@ class GDB_model():
             LOGGER.error("Feature vector length does not match the model input length")
             return
         else:
+            LOGGER.info("Feature vector OK - prediction phase started, %s", self.model_name)
+
             self.scaled_feature_vector_array.append(scaled_value)
             self.feature_vector_array.append(value)
 
