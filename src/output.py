@@ -57,5 +57,5 @@ class KafkaOutput(OutputAbstract):
                 value: Any = None,
                  algorithm: str = "Unknown") -> None:
         LOGGER.info("Sending to topic: %s", self.output_topic)
-        LOGGER.info("Length of the vector: %s", value["ftr_vector"])
+        LOGGER.info("Length of the vector: %s", len(value["value"]))
         self.producer.send(self.output_topic, value=value)
