@@ -7,7 +7,14 @@ import os
 import logging
 from typing import Any, Dict
 from kafka import KafkaProducer
+import logging
 #from kafka.admin import KafkaAdminClient, NewTopic
+
+# logging
+LOGGER = logging.getLogger("wf-monitor")
+logging.basicConfig(
+    format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s", level=logging.INFO)
+
 
 class OutputAbstract(ABC):
     send_ok: bool
@@ -35,7 +42,7 @@ class KafkaOutput(OutputAbstract):
         # print(conf)
         if(conf is not None):
             self.configure(conf=conf)
-        print("KafkaOutput initialized", flush=True)
+        LOGGER.info("KafkaOutput initialized")
 
     def configure(self, conf: Dict[Any, Any]) -> None:
         super().configure(conf=conf)
@@ -43,13 +50,12 @@ class KafkaOutput(OutputAbstract):
 
         self.producer = KafkaProducer(bootstrap_servers="localhost:9092",
                          value_serializer=lambda x: json.dumps(x).encode('utf-8'))
-        print("KafkaOutput configured", flush=True)
+        LOGGER.info("KafkaOutput configured")
 
     def send_out(self, suggested_value: Any,status: str = "",
                  timestamp: Any = None, status_code: int = None,
                 value: Any = None,
                  algorithm: str = "Unknown") -> None:
-        print(self.output_topic, flush=True)
-        print(value)
-        print(type(value))
+        LOGGER.info("Sending to topic: %s", self.output_topic)
+        LOGGER.info("Length of the vector: %s", value["ftr_vector"])
         self.producer.send(self.output_topic, value=value)

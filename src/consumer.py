@@ -103,7 +103,7 @@ class ConsumerKafka(ConsumerAbstract):
         algorithm_indx = 0
         LOGGER.info("ConsumerKafka configuring models")
         for model_name in self.model_names:
-            LOGGER.info("Working on model " + str(model_name) + " " + str(algorithm_indx))
+            LOGGER.info("Working on model " + str(model_name) + ", idx: " + str(algorithm_indx))
             Model = eval(model_name)
             Model.configure(self.model_configurations[algorithm_indx],
                               configuration_location=self.configuration_location,
@@ -115,7 +115,7 @@ class ConsumerKafka(ConsumerAbstract):
         LOGGER.info("ConsumerKafka reading")
         for message in self.consumer:
             # Get topic and insert into correct algorithm
-            #print(message)
+            # print(message)
             topic = message.topic
             LOGGER.info('Message received on a topic: ' + str(topic))
             algorithm_indx = self.topics.index(topic)
