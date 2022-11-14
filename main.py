@@ -16,7 +16,7 @@ from datetime import datetime
 __version__ = "1.0.3"
 
 # logging
-LOGGER = logging.getLogger("wf-monitor")
+LOGGER = logging.getLogger("main")
 logging.basicConfig(
     format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s", level=logging.INFO)
 
