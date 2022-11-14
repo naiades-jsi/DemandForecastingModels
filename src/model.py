@@ -89,6 +89,10 @@ class LSTM_model():
         return(load_model(filename))
 
     def feature_vector_creation(self, message_value: Dict[Any, Any]) -> Any:
+        # resetting the feature vector arrays
+        self.scaled_feature_vector_array = []
+        self.feature_vector_array = []
+
         value = message_value["ftr_vector"]
         timestamp = message_value["timestamp"]
 

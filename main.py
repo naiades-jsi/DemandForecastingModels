@@ -13,7 +13,7 @@ from multiprocessing import Process
 from datetime import datetime
 
 # setting version
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 
 # logging
 LOGGER = logging.getLogger("wf-monitor")
