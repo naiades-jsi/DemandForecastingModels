@@ -82,12 +82,17 @@ class ConsumerKafka(ConsumerAbstract):
             self.filtering = None
 
         self.topics = con['topics']
+        #self.consumer = KafkaConsumer(
+        #                bootstrap_servers="localhost:9092",
+        #                auto_offset_reset=con['auto_offset_reset'],
+        #                enable_auto_commit=con['enable_auto_commit'],
+        #                group_id=con['group_id'],
+        #                value_deserializer=eval(con['value_deserializer']))
         self.consumer = KafkaConsumer(
-                        bootstrap_servers="localhost:9092",
-                        auto_offset_reset=con['auto_offset_reset'],
-                        enable_auto_commit=con['enable_auto_commit'],
-                        group_id=con['group_id'],
-                        value_deserializer=eval(con['value_deserializer']))
+            bootstrap_servers="localhost:9092",
+            auto_offset_reset="latest",
+            value_deserializer=eval(con['value_deserializer'])
+        )
         self.consumer.subscribe(self.topics)
 
         # Initialize a list of prediction algorithms, each for a
